@@ -16,10 +16,10 @@ const (
 
 func main() {
 
-	username := os.Getenv(ApiUser)
+	apiUser := os.Getenv(ApiUser)
 	apiKey := os.Getenv(ApiKey)
 
-	client := sclient.NewSoftLayerClient(username, apiKey)
+	client := slclient.NewSoftLayerClient(apiUser, apiKey)
 
 	fmt.Println(client)
 
