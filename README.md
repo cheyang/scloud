@@ -9,5 +9,6 @@ cd $GOPATH/src/github/cheyang/scloud/cmd/scloud
 godep restore
 rm -rf Godeps
 go get github.com/cheyang/scloud/cmd/scloud
+cd $GOPATH/src/github/cheyang/scloud
 godep save ./...
 ```
