@@ -34,7 +34,7 @@ func main() {
 	virtualGuest, err := virtualGuestService.GetObject(12345)
 
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("errors:", err)
 		return
 	} else {
 		fmt.Println("No error found")
