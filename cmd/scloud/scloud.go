@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	slclient "github.com/maximilien/softlayer-go/client"
@@ -19,5 +20,7 @@ func main() {
 	apiKey := os.Getenv(ApiKey)
 
 	client := sclient.NewSoftLayerClient(username, apiKey)
+
+	fmt.Println(client)
 
 }
