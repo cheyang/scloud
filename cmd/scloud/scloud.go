@@ -27,6 +27,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		return
+	} else {
+		fmt.Println("No error found")
 	}
 
 	virtualGuest, err := virtualGuestService.GetObject(12345)
@@ -34,6 +36,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		return
+	} else {
+		fmt.Println("No error found")
 	}
 
 	spew.Printf("virtualGuest =%#+v\n", virtualGuest)
