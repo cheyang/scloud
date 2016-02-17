@@ -25,14 +25,15 @@ func main() {
 	virtualGuestService, err := client.GetSoftLayer_Virtual_Guest_Service()
 
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return
 	}
 
 	virtualGuest, err := virtualGuestService.GetObject(12345)
 
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return
 	}
 
 	spew.Printf("virtualGuest =%#+v\n", virtualGuest)
