@@ -1,0 +1,34 @@
+{
+	"ImportPath": "github.com/cheyang/scloud",
+	"GoVersion": "go1.5",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/maximilien/softlayer-go/client",
+			"Comment": "v0.4.0",
+			"Rev": "8f14c251491233bac034a0d3b560ea1001cdb830"
+		},
+		{
+			"ImportPath": "github.com/maximilien/softlayer-go/common",
+			"Comment": "v0.4.0",
+			"Rev": "8f14c251491233bac034a0d3b560ea1001cdb830"
+		},
+		{
+			"ImportPath": "github.com/maximilien/softlayer-go/data_types",
+			"Comment": "v0.4.0",
+			"Rev": "8f14c251491233bac034a0d3b560ea1001cdb830"
+		},
+		{
+			"ImportPath": "github.com/maximilien/softlayer-go/services",
+			"Comment": "v0.4.0",
+			"Rev": "8f14c251491233bac034a0d3b560ea1001cdb830"
+		},
+		{
+			"ImportPath": "github.com/maximilien/softlayer-go/softlayer",
+			"Comment": "v0.4.0",
+			"Rev": "8f14c251491233bac034a0d3b560ea1001cdb830"
+		}
+	]
+}
