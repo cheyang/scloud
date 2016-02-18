@@ -33,5 +33,5 @@ func GetCurrentMaxExt(nums []string) string {
 
 	}
 
-	return nil
+	return vMap[maxValue]
 }
