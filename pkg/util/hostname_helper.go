@@ -18,10 +18,10 @@ func GetCurrentMaxExt(nums []string) string {
 	vMap := make(map[int]string, 0)
 
 	for _, num := range nums {
-		key, err := strconv.ParseInt(num, 16, 0)
+		key, err := int(strconv.ParseInt(num, 16, 0))
 
 		if err != nil {
-			fmt.Println(error, "in GetCurrentMaxExt")
+			fmt.Println(err, "in GetCurrentMaxExt")
 			continue
 		}
 
