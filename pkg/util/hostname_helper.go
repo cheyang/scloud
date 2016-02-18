@@ -13,7 +13,7 @@ const (
 
 func GetCurrentMaxExt(nums []string) string {
 
-	maxValue := 0
+	maxValue int64 = 0
 
 	vMap := make(map[int64]string, 0)
 
