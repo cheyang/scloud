@@ -7,11 +7,11 @@ import (
 
 var _ = Describe("Hostname Helper", func() {
 	var (
-		nums string[]
+		nums []string
 	)
 
 	BeforeEach(func() {
-		nums = string[]{"001", "002", "010", "00f", "xxy"}
+		nums = []string{"001", "002", "010", "00f", "xxy"}
 	})
 
 	Context("#GetCurrentMaxExt", func() {
