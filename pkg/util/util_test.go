@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Hostname Helper", func() {
+var _ = Describe("Hostname Helper2", func() {
 	var (
 		nums []string
 	)
