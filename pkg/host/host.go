@@ -23,9 +23,12 @@ type Host struct {
 }
 
 type Options struct {
-	Driver string
-	Memory int
-	Disk   int
+	Driver      string
+	Memory      int
+	Disk        int
+	SSHHostname string
+	SSHUser     string
+	SSHKeyPath  string
 }
 
 func validHostName(name string) bool {

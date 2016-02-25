@@ -2,7 +2,10 @@
 package persist
 
 import (
+	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 )
 
@@ -19,5 +22,29 @@ func (this FileStore) saveToFile(data []byte, file string) error {
 }
 
 func (this FileStore) save(host *host.Host) error {
+
+	if rpcClientDriver, ok := host.Driver.(RpcClientDriver); ok {
+		data, err := rpcClientDriver.GetConfigRaw()
+
+		if err != nil {
+			return fmt.Errorf("Error getting raw config for driver: %s", err)
+		}
+
+		host.RawDriver = data
+	}
+
+	data, err = json.MarshalIndent(host, "", "    ")
+
+	if err != nil {
+		return err
+	}
+
+	hostpath := filepath.Join(this.getMachinesDir(), host.Name)
+
+	if err := os.MkdirAll(hostpath); err != nil {
+		return err
+	}
+
+	return this.saveToFile(data, filepath.Join(hostpath, config.json))
 
 }
