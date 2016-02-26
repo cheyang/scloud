@@ -15,10 +15,10 @@ type Driver interface {
 	DriverName() string
 
 	// Set the config for creating VM
-	SetDriverConfigs(config interface{})
+	SetCreateConfigs(config interface{})
 
-	// Get the Name
-	GetName()
+	//Precheck before the create request
+	PreCreateCheck() error
 
 	// GetIP returns an IP or hostname that this host is available at
 	// e.g. 1.2.3.4 or abc.com
