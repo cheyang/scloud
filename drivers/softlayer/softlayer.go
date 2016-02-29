@@ -7,6 +7,3 @@ import (
 
 type Driver struct {
 }
-
-type DeviceConfig struct {
-}

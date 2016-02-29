@@ -5,7 +5,7 @@ import (
 	"runtime"
 )
 
-func GetHomedir() {
+func GetHomedir() string {
 
 	if runtime.GOOS == "windows" {
 		return os.Getenv("USERPROFILE")

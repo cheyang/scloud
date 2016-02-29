@@ -3,6 +3,8 @@ package persist
 
 import (
 	"errors"
+
+	"github.com/cheyang/scloud/pkg/host"
 )
 
 type Store interface {
@@ -10,8 +12,8 @@ type Store interface {
 	// Exist returns whether a machine exists or not
 	Exists(name string) (bool, error)
 
-	// Update persists
-	Create(host *host.Host) error
+	// NewHost will initialize a new host machine
+	NewHost(host *host.Host) error
 
 	// Update persists with existing host
 	Update(host *host.Host) error

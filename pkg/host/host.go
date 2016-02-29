@@ -5,7 +5,7 @@ import (
 	"errors"
 	"regexp"
 
-	"github.com/cheyang/pkg/drivers"
+	"github.com/cheyang/scloud/pkg/drivers"
 )
 
 var (
@@ -34,4 +34,5 @@ func validHostName(name string) bool {
 
 func (h *Host) RunSSHCommand(command string) (string, error) {
 	return drivers.RunSSHCommandFromDriver(h.Driver, command)
+
 }

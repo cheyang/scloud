@@ -22,7 +22,7 @@ type BaseDriver struct {
 }
 
 func (d *BaseDriver) DriverName() string {
-	return "unknown"
+	return "None"
 }
 
 // GetMachineName return the machine name, by default, it's hostname
@@ -48,7 +48,7 @@ func (d *BaseDriver) GetIP() (string, error) {
 // GetSSHKeyPath returns the SSH Key path
 func (d *BaseDriver) GetSSHKeyPath() string {
 
-	if d.SSHKeyPath == nil {
+	if d.SSHKeyPath == "" {
 		d.SSHKeyPath = d.ResolveStorePath("id_rsa")
 	}
 
@@ -59,7 +59,7 @@ func (d *BaseDriver) GetSSHKeyPath() string {
 // GetSSHUsername returns the ssh user name, root if not specified
 func (d *BaseDriver) GetSSHUsername() string {
 
-	if d.SSHUser == nil {
+	if d.SSHUser == "" {
 		d.SSHUser = DefaultSSHUserName
 	}
 

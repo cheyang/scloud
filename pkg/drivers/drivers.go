@@ -4,6 +4,8 @@ package drivers
 import (
 	"errors"
 	"fmt"
+
+	"github.com/cheyang/scloud/pkg/state"
 )
 
 type Driver interface {
@@ -41,8 +43,29 @@ type Driver interface {
 
 	// Remove a host
 	Remove() error
+
+	// GetState returns the state that the host is in (running, stopped, etc)
+	GetState() (state.State, error)
 }
 
 var (
 	ErrHostIsNotReachable = errors.New("Host is not reachable by ssh")
 )
+
+func MachineInState(d Driver, desireState state.State) func() bool {
+
+	return func() bool {
+		currentState, err := d.GetState()
+
+		if err != nil {
+			fmt.Printf("Error in getting machine %s state: %s", d.GetMachineName(), err)
+		}
+
+		if currentState == desireState {
+			return true
+		}
+
+		return false
+	}
+
+}
