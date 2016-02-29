@@ -11,7 +11,7 @@ import (
 
 const (
 	ApiEndpoint = "https://api.softlayer.com/rest/v3"
-	ApiUser     = "SL_USERNAME"
+	ApiUser     = "SL_API_USER"
 	ApiKey      = "SL_API_KEY"
 )
 
@@ -19,6 +19,8 @@ func main() {
 
 	apiUser := os.Getenv(ApiUser)
 	apiKey := os.Getenv(ApiKey)
+
+	id := 12345
 
 	client := slclient.NewSoftLayerClient(apiUser, apiKey)
 
@@ -31,7 +33,7 @@ func main() {
 		fmt.Println("No error found")
 	}
 
-	virtualGuest, err := virtualGuestService.GetObject(12345)
+	virtualGuest, err := virtualGuestService.GetObject(id)
 
 	if err != nil {
 		fmt.Println("errors:", err)
@@ -42,4 +44,7 @@ func main() {
 
 	spew.Printf("virtualGuest =%#+v\n", virtualGuest)
 
+	vgPowerState, err := virtualGuestService.GetPowerState(id)
+
+	spew.Printf("vgPowerState =%#+v\n", vgPowerState)
 }
