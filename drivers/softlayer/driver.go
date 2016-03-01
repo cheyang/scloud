@@ -49,7 +49,7 @@ func NewDriver(hostName, storePath string) (drivers.Driver, error) {
 	once.Do(setup)
 
 	if !initDone {
-		return nil, fmt.Errorf("Failed to init sl client!")
+		return &Driver{}, fmt.Errorf("Failed to init sl client!")
 	}
 
 	return &Driver{
