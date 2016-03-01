@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"syscall"
 	"time"
 )
 
@@ -40,9 +41,8 @@ func InitLog() error {
 	if err == nil {
 		logFile.WriteString(fmt.Sprintf("%v Opened logfile at %v", os.Getpid(), time.Now()))
 		os.Stderr = logFile
-		syscall.Dup2(int(crashFile.Fd()), 2)
+		syscall.Dup2(int(logFile.Fd()), 2)
 	}
-
 }
 
 func CloseLog() {
