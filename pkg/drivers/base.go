@@ -74,7 +74,3 @@ func (d *BaseDriver) PreCreateCheck() error {
 func (d *BaseDriver) ResolveStorePath(file string) string {
 	return filepath.Join(d.StorePath, "machines", d.MachineName, file)
 }
-
-func (d *BaseDriver) GetMachineName() string {
-	return d.MachineName
-}
