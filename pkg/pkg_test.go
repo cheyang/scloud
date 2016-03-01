@@ -34,6 +34,8 @@ var _ = Describe("pkg", func() {
 
 		Expect(sl_driver).ToNot(BeNil())
 
+		fmt.Println(sl_driver)
+
 		//			err = sl_driver.PreCreateCheck()
 
 		//			Expect(err).To(HaveOccurred())
