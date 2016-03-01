@@ -2,6 +2,7 @@
 package softlayer
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -68,10 +69,16 @@ func (d *Driver) Create() error {
 		return err
 	}
 
-	virtualGuest, err := virtualGuestService.CreateObject(d.VirtualGuestTemplate)
+	virtualGuestTemplate := d.VirtualGuestTemplate
+
+	virtualGuest, err := virtualGuestService.CreateObject(*virtualGuestTemplate)
 
 	if err != nil {
 		return err
+	}
+
+	if virtualGuest.Id <= 0 {
+		return errors.New("Failed to retrieve the instance id of %s", d.getMachineName())
 	}
 
 	d.Id = virtualGuest.Id
@@ -118,9 +125,21 @@ func (d *Driver) PreCreateCheck() error {
 	return validateCreateTemplate(d.VirtualGuestTemplate)
 }
 
+func (d *Driver) GetSSHHostname() (string, error) {
+	return d.GetIP()
+}
+
+func (d *Driver) GetIP() (string, error) {
+	if d.IPAddress != "" {
+		return d.IPAddress, nil
+	}
+
+	object, err := apiClient.GetSoftLayer_Virtual_Guest_Service().GetObject(d.Id)
+}
+
 func validateCreateTemplate(createVirtualTemplate *datatypes.SoftLayer_Virtual_Guest_Template) error {
 
-	if !host.validHostName(createVirtualTemplate.Hostname) {
+	if !host.ValidHostName(createVirtualTemplate.Hostname) {
 		return errs.ErrInvalidHostname
 	}
 
@@ -137,4 +156,6 @@ func validateCreateTemplate(createVirtualTemplate *datatypes.SoftLayer_Virtual_G
 		return fmt.Errorf("Missing required setting -- OperationSystemReference Doe or Template Id")
 
 	}
+
+	return nil
 }
