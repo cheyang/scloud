@@ -3,7 +3,8 @@ package pkg_test
 import (
 	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
 	lib "github.com/cheyang/scloud/pkg"
-	//	"github.com/cheyang/scloud/pkg/persist"
+	"github.com/cheyang/scloud/pkg/drivers"
+	"github.com/cheyang/scloud/pkg/persist"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,24 +12,57 @@ import (
 
 var _ = Describe("pkg", func() {
 
+	var (
+		sl_driver drivers.Driver
+		store     persist.Store
+	)
+
+	BeforeEach(func() {
+		store := lib.GetDefaultStore("mytest")
+
+		hostname := "mytesthost"
+
+		sl_driver, err := sl_cloud.NewDriver(hostname, store.Path)
+
+		Expect(err).To(BeNil())
+
+		//			Expect(err.Error()).To(ContainSubstring("Failed to init sl client!"))
+
+		Expect(sl_driver).ToNot(BeNil())
+
+		//			err = sl_driver.PreCreateCheck()
+
+		//			Expect(err).To(HaveOccurred())
+	})
+
 	Context("#Create", func() {
 
 		It("create a new VM on Softlayer", func() {
-			store := lib.GetDefaultStore("mytest")
+			virtualGuestTemplate := &datatypes.SoftLayer_Virtual_Guest_Template{
+				Domain:    "softlayergo.com",
+				StartCpus: 2,
+				MaxMemory: 2048,
+				Datacenter: datatypes.Datacenter{
+					Name: "dal05",
+				},
+				NetworkComponents: []datatypes.NetworkComponents{datatypes.NetworkComponents{
+					MaxSpeed: 1000,
+				}},
+				SshKeys:                  []SshKey{SshKey{Id: 3922}},
+				HourlyBillingFlag:        true,
+				LocalDiskFlag:            true,
+				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
+				PrimaryNetworkComponent:  &datatypes.PrimaryNetworkComponent{NetworkVlan: NetworkVlan{Id: 282238}},
+			}
 
-			hostname := "mytesthost"
+			sl_driver.SetCreateConfigs(virtualGuestTemplate)
 
-			sl_driver, err := sl_cloud.NewDriver(hostname, store.Path)
+			real_driver, ok := sl_driver.(softlayer.Driver)
 
-			Expect(err).To(BeNil())
+			Expect(ok).To(BeTrue())
 
-			//			Expect(err.Error()).To(ContainSubstring("Failed to init sl client!"))
+			Expect(real_driver.Hostname).To(Equal("mytesthost"))
 
-			Expect(sl_driver).ToNot(BeNil())
-
-			//			err = sl_driver.PreCreateCheck()
-
-			//			Expect(err).To(HaveOccurred())
 		})
 	})
 })
