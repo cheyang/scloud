@@ -8,7 +8,7 @@ import (
 
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
-	//	"github.com/cheyang/scloud/pkg/host/errs"
+	"github.com/cheyang/scloud/pkg/host/errs"
 	"github.com/cheyang/scloud/pkg/state"
 	slclient "github.com/cheyang/softlayer-go/client"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
@@ -146,6 +146,8 @@ func (d *Driver) GetIP() (string, error) {
 	}
 
 	d.IPAddress = virtualGuest.PrimaryBackendIpAddress
+
+	return d.IPAddress, nil
 }
 
 func validateCreateTemplate(createVirtualTemplate *datatypes.SoftLayer_Virtual_Guest_Template) error {
