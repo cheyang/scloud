@@ -44,17 +44,17 @@ func setup() {
 	accountService, err := apiClient.GetSoftLayer_Account_Service()
 
 	if err != nil {
-		fmt.Printf("Init sl cloud failed due to %s \n", err)
+		fmt.Fprintf(os.Stderr, "Init sl cloud failed due to %s \n", err)
 		return
 	}
 
 	accountStatus, err := accountService.GetAccountStatus()
 
 	if err != nil {
-		fmt.Printf("Init sl cloud failed due to %s \n", err)
+		fmt.Fprintf(os.Stderr, "Init sl cloud failed due to %s \n", err)
 		return
 	} else if strings.ToLower(accountStatus.Name) != "active" {
-		fmt.Printf("Account status is %s, not as Active expected \n", accountStatus.Name)
+		fmt.Fprintf(os.Stderr, "Account status is %s, not as Active expected \n", accountStatus.Name)
 		return
 	}
 
@@ -128,7 +128,7 @@ func (d *Driver) GetState() (state.State, error) {
 	}
 
 	if len(activeTransactions) > 0 {
-		fmt.Printf("active transactions for %s are %s", d.MachineName, activeTransactions)
+		fmt.Fprintf(os.Stderr, "active transactions for %s are %s", d.MachineName, activeTransactions)
 		return state.Starting, err
 	}
 

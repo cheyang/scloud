@@ -58,7 +58,7 @@ func MachineInState(d Driver, desireState state.State) func() bool {
 		currentState, err := d.GetState()
 
 		if err != nil {
-			fmt.Printf("Error in getting machine %s state: %s", d.GetMachineName(), err)
+			fmt.Fprintf(os.Stderr, "Error in getting machine %s state: %s\n", d.GetMachineName(), err)
 		}
 
 		if currentState == desireState {

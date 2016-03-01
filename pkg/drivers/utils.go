@@ -4,6 +4,8 @@ package drivers
 import (
 	"fmt"
 
+	"os"
+
 	"github.com/cheyang/scloud/pkg/utils"
 )
 
@@ -17,11 +19,11 @@ func WaitForSSH(d Driver) error {
 
 func sshAvailableFunc(d Driver) func() bool {
 	return func() bool {
-		fmt.Printf("Getting to waitForSSH function for %s...", d.GetMachineName())
+		fmt.Fprintf(os.Stderr, "Getting to waitForSSH function for %s...\n", d.GetMachineName())
 
 		if _, err := RunSSHCommandFromDriver(d, "exit 0"); err != nil {
 
-			fmt.Printf("Error getting ssh command 'exit 0' : %s", err)
+			fmt.Fprintf(os.Stderr, "Error getting ssh command 'exit 0' : %s", err)
 			return false
 		}
 

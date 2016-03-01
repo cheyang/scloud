@@ -32,7 +32,7 @@ func WaitForSpecificOrError(f func() (bool, error), maxAttempts int, interval ti
 			return nil
 		}
 
-		fmt.Println("retry f ", f, " for ", i, " times")
+		fmt.Fprintf(os.Stderr, "retry f %s for %d times\n", f, i)
 
 		time.Sleep(interval)
 	}

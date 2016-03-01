@@ -90,7 +90,7 @@ func (this FileStore) List() ([]*host.Host, error) {
 			host, err := this.Load(file.Name())
 
 			if err != nil {
-				fmt.Printf("error loading host %q: %s", file.Name(), err)
+				fmt.Fprintf(os.Stderr, "error loading host %q: %s", file.Name(), err)
 				continue
 			}
 

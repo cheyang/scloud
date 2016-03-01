@@ -21,7 +21,7 @@ func GetCurrentMaxExt(nums []string) string {
 		key, err := strconv.ParseInt(num, 16, 0)
 
 		if err != nil {
-			fmt.Println(err, "in GetCurrentMaxExt")
+			fmt.Fprintf(os.Stderr, "%s in GetCurrentMaxExt", err)
 			continue
 		}
 
