@@ -58,13 +58,13 @@ func Create(store persist.Store, host *host.Host) error {
 func waitForReady(host *host.Host) error {
 	fmt.Printf("Waiting for machine %s to be running, this may take a few minutes...\n", host.Name)
 
-	if err := utils.WaitFor(utils.WaitFor(drivers.MachineInState(h.Driver, state.Running))); err != nil {
+	if err := utils.WaitFor(utils.WaitFor(drivers.MachineInState(host.Driver, state.Running))); err != nil {
 		return fmt.Errorf("Error waiting for machine %s to be running: %s", host.Name, err)
 	}
 
 	fmt.Println("Machine %s is running, waiting for SSH to be available ...\n", host.Name)
 
-	if err := utils.WaitForSSH(h.Driver); err != nil {
+	if err := utils.WaitForSSH(host.Driver); err != nil {
 		return fmt.Errorf("Error waiting %s for SSH: %s", host.Name, err)
 	}
 
