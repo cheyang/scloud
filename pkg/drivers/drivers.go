@@ -4,6 +4,7 @@ package drivers
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/cheyang/scloud/pkg/state"
 )
