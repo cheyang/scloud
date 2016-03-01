@@ -11,10 +11,10 @@ import (
 	"github.com/cheyang/scloud/pkg/utils"
 )
 
-func GetDefaultStore(clusterName string) *persist.Filestore {
+func GetDefaultStore(clusterName string) *persist.FileStore {
 	homeDir := utils.GetHomeDir()
 	clusterDir := filepath.Join(homeDir, ".scloud", clusterName)
-	return &persist.Filestore{
+	return &persist.FileStore{
 		Path: filepath.Join(homeDir),
 	}
 }
@@ -23,7 +23,7 @@ func Create(store persist.Store, host *host.Host) error {
 
 	fmt.Println("Running pre-create check for ", host.Name, "...")
 
-	if host.Driver.GetDriverName() != "None" {
+	if host.Driver.DriverName() != "None" {
 		return fmt.Errorf("Not an implmented cloud driver")
 	}
 
@@ -34,19 +34,19 @@ func Create(store persist.Store, host *host.Host) error {
 
 	fmt.Println("Creating machine... for", host.Name, "...")
 
-	if err = host.Driver.Create(); err != nil {
+	if err := host.Driver.Create(); err != nil {
 		return fmt.Errorf("Error in driver during machine %s creation: %s", host.Name, err)
 	}
 
-	if err = store.NewHost(host); err != nil {
+	if err := store.NewHost(host); err != nil {
 		return fmt.Errorf("Error with saving meta data for %s", host.Name)
 	}
 
-	if err = waitForReady(host); err != nil {
+	if err := waitForReady(host); err != nil {
 		return fmt.Errorf("Error with waiting for %s: %s", host.Name, err)
 	}
 
-	if err = store.Update(host); err != nil {
+	if err := store.Update(host); err != nil {
 		return fmt.Errorf("Error with Saving for %s: %s", host.Name, err)
 	}
 
