@@ -74,6 +74,10 @@ var _ = Describe("pkg", func() {
 
 			fmt.Println(real_driver.VirtualGuestTemplate)
 
+			err = sl_driver.PreCreateCheck()
+
+			fmt.Println(err)
+
 		})
 	})
 })
