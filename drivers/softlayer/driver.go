@@ -2,6 +2,7 @@
 package softlayer
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -161,6 +162,10 @@ func (d *Driver) GetIP() (string, error) {
 }
 
 func validateCreateTemplate(createVirtualTemplate *datatypes.SoftLayer_Virtual_Guest_Template) error {
+
+	if createVirtualTemplate == nil {
+		return errors.New("createVirtualTemplate is not set")
+	}
 
 	if !host.ValidHostName(createVirtualTemplate.Hostname) {
 		return errs.ErrInvalidHostname
