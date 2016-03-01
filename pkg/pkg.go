@@ -16,7 +16,7 @@ func GetDefaultStore(clusterName string) *persist.FileStore {
 	homeDir := utils.GetHomeDir()
 	clusterDir := filepath.Join(homeDir, ".scloud", clusterName)
 	return &persist.FileStore{
-		Path: filepath.Join(homeDir),
+		Path: clusterDir,
 	}
 }
 
