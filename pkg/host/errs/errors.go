@@ -1,5 +1,5 @@
 // errors.go
-package err
+package errs
 
 import (
 	"errors"
