@@ -114,13 +114,14 @@ func (this FileStore) Load(name string) (*host.Host, error) {
 
 func (this FileStore) loadConfig(h *host.Host) (*host.Host, error) {
 	data, err := ioutil.ReadFile(filepath.Join(this.getMachinesDir(), h.Name, "config.json"))
-	if err != nil {
-		return &host.Host{Name: name}, err
-	}
 
 	// Remember the machine name so we don't have to pass it through each
 	// struct in the migration.
 	name := h.Name
+
+	if err != nil {
+		return &host.Host{Name: name}, err
+	}
 
 	if err := json.Unmarshal(data, h); err != nil {
 		return &host.Host{Name: name}, err
