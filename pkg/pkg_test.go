@@ -20,7 +20,7 @@ var _ = Describe("pkg", func() {
 	)
 
 	BeforeEach(func() {
-		store := lib.GetDefaultStore("mytest")
+		store = lib.GetDefaultStore("mytest")
 
 		hostname := "mytesthost"
 
