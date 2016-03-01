@@ -24,7 +24,7 @@ var _ = Describe("pkg", func() {
 
 		hostname := "mytesthost"
 
-		sl_driver, err := sl_cloud.NewDriver(hostname, store.Path)
+		sl_driver, err := sl_cloud.NewDriver(hostname, store.MyDir())
 
 		Expect(err).To(BeNil())
 

@@ -26,6 +26,9 @@ type Store interface {
 
 	// Remove removes a machine from the store
 	Remove(name string) error
+
+	// the Direcotory of the Store
+	MyDir() string
 }
 
 var (

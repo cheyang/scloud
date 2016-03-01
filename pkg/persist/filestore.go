@@ -17,6 +17,10 @@ type FileStore struct {
 	Path string
 }
 
+func (this FileStore) MyDir() string {
+	return this.getMachinesDir()
+}
+
 func (this FileStore) getMachinesDir() string {
 	return filepath.Join(this.Path, "machines")
 }
