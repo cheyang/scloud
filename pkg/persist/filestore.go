@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/cheyang/scloud/pkg/drivers/rpc"
 	"github.com/cheyang/scloud/pkg/host"
 )
 
@@ -26,7 +27,7 @@ func (this FileStore) saveToFile(data []byte, file string) error {
 
 func (this FileStore) save(host *host.Host) error {
 
-	if rpcClientDriver, ok := host.Driver.(RpcClientDriver); ok {
+	if rpcClientDriver, ok := host.Driver.(rpc.RpcClientDriver); ok {
 		data, err := rpcClientDriver.GetConfigRaw()
 
 		if err != nil {
@@ -44,7 +45,7 @@ func (this FileStore) save(host *host.Host) error {
 
 	hostpath := filepath.Join(this.getMachinesDir(), host.Name)
 
-	if err := os.MkdirAll(hostpath); err != nil {
+	if err := os.MkdirAll(hostpath, 0700); err != nil {
 		return err
 	}
 
