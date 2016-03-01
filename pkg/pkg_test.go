@@ -63,7 +63,7 @@ var _ = Describe("pkg", func() {
 
 			Expect(ok).To(BeTrue())
 
-			Expect(real_driver.Hostname).To(Equal("mytesthost"))
+			Expect(real_driver.MachineName).To(Equal("mytesthost"))
 
 		})
 	})
