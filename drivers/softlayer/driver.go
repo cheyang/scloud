@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
@@ -18,6 +19,8 @@ var (
 	apiUser   string
 	apiKey    string
 	apiClient *slclient.SoftLayerClient
+	initDone  bool = false
+	once      sync.Once
 )
 
 type Driver struct {
@@ -26,20 +29,27 @@ type Driver struct {
 	Id int
 }
 
-func init() {
+func setup() {
 	apiUser := os.Getenv("SL_API_USER")
 	apiKey := os.Getenv("SL_API_KEY")
 
 	if apiUser == "" || apiKey == "" {
 
 		fmt.Println("Please don't forget to set SL_API_USER and SL_API_KEY before running command")
-		os.Exit(1)
+		return
 	}
 
+	initDone = true
 	apiClient = slclient.NewSoftLayerClient(apiUser, apiKey)
 }
 
-func NewDriver(hostName, storePath string) drivers.Driver {
+func NewDriver(hostName, storePath string) (drivers.Driver, error) {
+
+	once.Do(setup)
+
+	if !initDone {
+		return nil, fmt.Errorf("Failed to init sl client!")
+	}
 
 	return &Driver{
 		VirtualGuestTemplate: &datatypes.SoftLayer_Virtual_Guest_Template{},
@@ -47,7 +57,7 @@ func NewDriver(hostName, storePath string) drivers.Driver {
 			MachineName: hostName,
 			StorePath:   storePath,
 		},
-	}
+	}, nil
 }
 
 func (d *Driver) DriverName() string {
