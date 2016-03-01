@@ -72,6 +72,8 @@ var _ = Describe("pkg", func() {
 
 			Expect(real_driver.MachineName).To(Equal("mytesthost"))
 
+			fmt.Println(real_driver.VirtualGuestTemplate)
+
 		})
 	})
 })
