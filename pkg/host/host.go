@@ -28,7 +28,7 @@ type Options struct {
 	Disk   int
 }
 
-func validHostName(name string) bool {
+func ValidHostName(name string) bool {
 	return validHostNamePattern.MatchString(name)
 }
 
