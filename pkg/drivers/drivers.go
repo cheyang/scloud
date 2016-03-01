@@ -42,7 +42,7 @@ type Driver interface {
 	GetSSHUsername() string
 
 	// Remove a host
-	Remove() error
+	//	Remove() error
 
 	// GetState returns the state that the host is in (running, stopped, etc)
 	GetState() (state.State, error)
