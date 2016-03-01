@@ -49,7 +49,7 @@ func (this FileStore) save(host *host.Host) error {
 		return err
 	}
 
-	return this.saveToFile(data, filepath.Join(hostpath, config.json))
+	return this.saveToFile(data, filepath.Join(hostpath, "config.json"))
 
 }
 
@@ -83,7 +83,7 @@ func (this FileStore) List() ([]*host.Host, error) {
 	for i, file := range fileInfos {
 
 		if file.IsDir() && !strings.HasPrefix(file.Name(), ".") {
-			host, err := Load(file.Name())
+			host, err := this.Load(file.Name())
 
 			if err != nil {
 				fmt.Printf("error loading host %q: %s", file.Name(), err)
@@ -105,7 +105,7 @@ func (this FileStore) Load(name string) (*host.Host, error) {
 		return nil, err
 	}
 
-	host := &host.Host{name: name}
+	host := &host.Host{Name: name}
 
 	host, err = this.loadConfig(host)
 
@@ -113,9 +113,9 @@ func (this FileStore) Load(name string) (*host.Host, error) {
 }
 
 func (this FileStore) loadConfig(h *host.Host) (*host.Host, error) {
-	data, err := ioutil.ReadFile(filepath.Join(s.getMachinesDir(), h.Name, "config.json"))
+	data, err := ioutil.ReadFile(filepath.Join(this.getMachinesDir(), h.Name, "config.json"))
 	if err != nil {
-		return err
+		return &host.Host{Name: name}, err
 	}
 
 	// Remember the machine name so we don't have to pass it through each
@@ -123,7 +123,7 @@ func (this FileStore) loadConfig(h *host.Host) (*host.Host, error) {
 	name := h.Name
 
 	if err := json.Unmarshal(data, h); err != nil {
-		return &host.Host{}, err
+		return &host.Host{Name: name}, err
 	}
 
 	h.Name = name
