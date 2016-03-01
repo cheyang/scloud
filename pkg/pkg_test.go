@@ -59,7 +59,7 @@ var _ = Describe("pkg", func() {
 
 			sl_driver.SetCreateConfigs(virtualGuestTemplate)
 
-			real_driver, ok := sl_driver.(softlayer.Driver)
+			real_driver, ok := sl_driver.(*softlayer.Driver)
 
 			Expect(ok).To(BeTrue())
 
