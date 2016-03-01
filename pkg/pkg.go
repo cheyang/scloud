@@ -7,7 +7,7 @@ import (
 
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
-	"github.com/cheyang/scloud/pkg/host/errs"
+	//	"github.com/cheyang/scloud/pkg/host/errs"
 	"github.com/cheyang/scloud/pkg/persist"
 	"github.com/cheyang/scloud/pkg/state"
 	"github.com/cheyang/scloud/pkg/utils"
