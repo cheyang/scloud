@@ -80,7 +80,9 @@ var _ = Describe("pkg", func() {
 
 			fmt.Println("PreCheck...", err)
 
-			err = sl_driver.Create()
+			//			err = sl_driver.Create()
+
+			real_driver.Id = 16407243
 
 			fmt.Println("Create...", err)
 
