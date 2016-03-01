@@ -3,7 +3,7 @@ package pkg_test
 import (
 	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
 	lib "github.com/cheyang/scloud/pkg"
-	"github.com/cheyang/scloud/pkg/persist"
+	//	"github.com/cheyang/scloud/pkg/persist"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -20,7 +20,9 @@ var _ = Describe("pkg", func() {
 
 			sl_driver := sl_cloud.NewDriver(hostname, store.Path)
 
-			sl_driver.PreCreateCheck()
+			err := sl_driver.PreCreateCheck()
+
+			Expect(err).To(HaveOccurred())
 		})
 	})
 })
