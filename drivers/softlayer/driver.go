@@ -44,17 +44,17 @@ func setup() {
 	accountService, err := apiClient.GetSoftLayer_Account_Service()
 
 	if err != nil {
-		fmt.Printf("error is %s \n", err)
+		fmt.Printf("Init sl cloud failed due to %s \n", err)
 		return
 	}
 
 	accountStatus, err := accountService.GetAccountStatus()
 
 	if err != nil {
-		fmt.Printf("error is %s \n", err)
+		fmt.Printf("Init sl cloud failed due to %s \n", err)
 		return
 	} else if strings.ToLower(accountStatus.Name) != "active" {
-		fmt.Printf("account status is %s, not as Active expected \n", accountStatus.Name)
+		fmt.Printf("Account status is %s, not as Active expected \n", accountStatus.Name)
 		return
 	}
 
