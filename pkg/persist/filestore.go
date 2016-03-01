@@ -143,3 +143,19 @@ func (this FileStore) NewHost(host *host.Host) error {
 	return err
 
 }
+
+// Update the host info
+func (this FileStore) Update(host *host.Host) error {
+	hostDir := filepath.Join(this.getMachinesDir(), host.Name)
+
+	_, err := os.Stat(hostDir)
+
+	// if the directory has already existed
+	if os.IsNotExist(err) {
+		return HostEntryNotExistError
+	}
+
+	err = this.save(host)
+
+	return err
+}
