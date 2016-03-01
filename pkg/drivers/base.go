@@ -66,6 +66,15 @@ func (d *BaseDriver) GetSSHUsername() string {
 	return d.SSHUser
 }
 
+// GetSSHPort returns the ssh port, 22 if not specified
+func (d *BaseDriver) GetSSHPort() (int, error) {
+	if d.SSHPort == 0 {
+		d.SSHPort = DefaultSSHPort
+	}
+
+	return d.SSHPort, nil
+}
+
 func (d *BaseDriver) PreCreateCheck() error {
 	return nil
 }
