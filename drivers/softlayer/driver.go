@@ -2,7 +2,6 @@
 package softlayer
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"strings"
