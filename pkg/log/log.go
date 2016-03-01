@@ -38,11 +38,15 @@ func InitLog() error {
 
 	logFile, err = os.OpenFile(logFileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0664)
 
-	if err == nil {
-		logFile.WriteString(fmt.Sprintf("%v Opened logfile at %v", os.Getpid(), time.Now()))
-		os.Stderr = logFile
-		syscall.Dup2(int(logFile.Fd()), 2)
+	if err != nil {
+		return err
 	}
+
+	logFile.WriteString(fmt.Sprintf("%v Opened logfile at %v", os.Getpid(), time.Now()))
+	os.Stderr = logFile
+	syscall.Dup2(int(logFile.Fd()), 2)
+
+	return nil
 }
 
 func CloseLog() {
