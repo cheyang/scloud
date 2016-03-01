@@ -64,7 +64,7 @@ func waitForReady(host *host.Host) error {
 
 	fmt.Println("Machine %s is running, waiting for SSH to be available ...\n", host.Name)
 
-	if err := utils.WaitForSSH(host.Driver); err != nil {
+	if err := drivers.WaitForSSH(host.Driver); err != nil {
 		return fmt.Errorf("Error waiting %s for SSH: %s", host.Name, err)
 	}
 
