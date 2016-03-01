@@ -76,7 +76,7 @@ var _ = Describe("pkg", func() {
 
 			err = sl_driver.PreCreateCheck()
 
-			fmt.Println(err)
+			fmt.Println("PreCheck...", err)
 
 		})
 	})
