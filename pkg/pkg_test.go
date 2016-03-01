@@ -18,9 +18,13 @@ var _ = Describe("pkg", func() {
 
 			hostname := "mytesthost"
 
-			sl_driver := sl_cloud.NewDriver(hostname, store.Path)
+			sl_driver, err := sl_cloud.NewDriver(hostname, store.Path)
 
-			err := sl_driver.PreCreateCheck()
+			Expect(err).To(HaveOccurred())
+
+			Expect(err.Error()).To(ContainSubstring("Failed to init sl client!"))
+
+			err = sl_driver.PreCreateCheck()
 
 			Expect(err).To(HaveOccurred())
 		})
