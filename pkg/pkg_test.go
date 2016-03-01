@@ -86,7 +86,7 @@ var _ = Describe("pkg", func() {
 
 			if err == nil {
 				if err = utils.WaitFor(drivers.MachineInState(sl_driver, state.Running)); err != nil {
-					fmt.Printf("Error waiting for machine %s to be running: %s\n", sl_driver.MachineName, err)
+					fmt.Printf("Error waiting for machine %s to be running: %s\n", real_driver.MachineName, err)
 				}
 			}
 
