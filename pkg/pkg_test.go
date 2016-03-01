@@ -1,6 +1,8 @@
 package pkg_test
 
 import (
+	"fmt"
+
 	"github.com/cheyang/scloud/drivers/softlayer"
 	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
 	lib "github.com/cheyang/scloud/pkg"
@@ -56,6 +58,8 @@ var _ = Describe("pkg", func() {
 				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
 				PrimaryNetworkComponent:  &datatypes.PrimaryNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
 			}
+
+			fmt.Println(sl_driver)
 
 			sl_driver.SetCreateConfigs(virtualGuestTemplate)
 
