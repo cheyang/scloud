@@ -19,6 +19,7 @@ var _ = Describe("pkg", func() {
 	var (
 		sl_driver drivers.Driver
 		store     persist.Store
+		err       error
 	)
 
 	BeforeEach(func() {
@@ -26,7 +27,7 @@ var _ = Describe("pkg", func() {
 
 		hostname := "mytesthost"
 
-		sl_driver, err := sl_cloud.NewDriver(hostname, store.MyDir())
+		sl_driver, err = sl_cloud.NewDriver(hostname, store.MyDir())
 
 		Expect(err).To(BeNil())
 
