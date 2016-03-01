@@ -2,7 +2,6 @@
 package softlayer
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -134,7 +133,13 @@ func (d *Driver) GetIP() (string, error) {
 		return d.IPAddress, nil
 	}
 
-	virtualGuest, err := apiClient.GetSoftLayer_Virtual_Guest_Service().GetObject(d.Id)
+	virtualGuestService, err := apiClient.GetSoftLayer_Virtual_Guest_Service()
+
+	if err != nil {
+		return "", err
+	}
+
+	virtualGuest, err := virtualGuestService.GetObject(d.Id)
 
 	if err != nil {
 		return "", err
