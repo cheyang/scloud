@@ -8,6 +8,8 @@ import (
 	lib "github.com/cheyang/scloud/pkg"
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/persist"
+	"github.com/cheyang/scloud/pkg/state"
+	"github.com/cheyang/scloud/pkg/utils"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
 
 	. "github.com/onsi/ginkgo"
@@ -77,6 +79,16 @@ var _ = Describe("pkg", func() {
 			err = sl_driver.PreCreateCheck()
 
 			fmt.Println("PreCheck...", err)
+
+			err = sl_driver.Create()
+
+			fmt.Println("PreCheck...", err)
+
+			if err == nil {
+				if err = utils.WaitFor(drivers.MachineInState(sl_driver, state.Running)); err != nil {
+					fmt.Printf("Error waiting for machine %s to be running: %s\n", sl_driver.MachineName, err)
+				}
+			}
 
 		})
 	})
