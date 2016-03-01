@@ -8,7 +8,7 @@ import (
 )
 
 func WaitForSSH(d Driver) error {
-	if utils.WaitFor(sshAvailableFunc(d)); err != nil {
+	if err := utils.WaitFor(sshAvailableFunc(d)); err != nil {
 		fmt.Errorf("Too many retries waiting for SSH to be available.  Last error: %s", err)
 	}
 
