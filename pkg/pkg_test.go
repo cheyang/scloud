@@ -97,6 +97,12 @@ var _ = Describe("pkg", func() {
 				}
 			}
 
+			sshHostname, err := sl_driver.GetSSHHostname()
+
+			fmt.Println(sshHostname)
+
+			fmt.Println(err)
+
 		})
 	})
 })
