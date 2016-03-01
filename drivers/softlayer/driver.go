@@ -8,7 +8,7 @@ import (
 
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
-	"github.com/cheyang/scloud/pkg/host/errs"
+	//	"github.com/cheyang/scloud/pkg/host/errs"
 	"github.com/cheyang/scloud/pkg/state"
 	slclient "github.com/cheyang/softlayer-go/client"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
@@ -17,7 +17,7 @@ import (
 var (
 	apiUser   string
 	apiKey    string
-	apiClient *client.SoftLayerClient
+	apiClient *slclient.SoftLayerClient
 )
 
 type Driver struct {
@@ -36,16 +36,16 @@ func init() {
 		os.Exit(1)
 	}
 
-	apiClient = &slclient.NewSoftLayerClient(apiUser, apiKey)
+	apiClient = slclient.NewSoftLayerClient(apiUser, apiKey)
 }
 
-func NewDriver(hostname, storePath string) drivers.Driver {
+func NewDriver(hostName, storePath string) drivers.Driver {
 
 	return &Driver{
 		VirtualGuestTemplate: &datatypes.SoftLayer_Virtual_Guest_Template{},
 		BaseDriver: &drivers.BaseDriver{
 			MachineName: hostName,
-			storePath:   storePath,
+			StorePath:   storePath,
 		},
 	}
 }
@@ -68,7 +68,7 @@ func (d *Driver) Create() error {
 		return err
 	}
 
-	virtualGuest, err := virtualGuestService.CreateObject(virtualGuestTemplate)
+	virtualGuest, err := virtualGuestService.CreateObject(d.VirtualGuestTemplate)
 
 	if err != nil {
 		return err
