@@ -24,7 +24,7 @@ var _ = Describe("pkg", func() {
 
 			Expect(err.Error()).To(ContainSubstring("Failed to init sl client!"))
 
-			Expect(sl_driver).To(BeNil())
+			Expect(sl_driver).ToNot(BeNil())
 
 			//			err = sl_driver.PreCreateCheck()
 
