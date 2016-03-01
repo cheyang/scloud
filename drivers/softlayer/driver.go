@@ -78,7 +78,7 @@ func (d *Driver) Create() error {
 	}
 
 	if virtualGuest.Id <= 0 {
-		return errors.New("Failed to retrieve the instance id of %s", d.getMachineName())
+		return fmt.Errorf("Failed to retrieve the instance id of %s", d.GetMachineName())
 	}
 
 	d.Id = virtualGuest.Id
@@ -134,7 +134,13 @@ func (d *Driver) GetIP() (string, error) {
 		return d.IPAddress, nil
 	}
 
-	object, err := apiClient.GetSoftLayer_Virtual_Guest_Service().GetObject(d.Id)
+	virtualGuest, err := apiClient.GetSoftLayer_Virtual_Guest_Service().GetObject(d.Id)
+
+	if err != nil {
+		return "", err
+	}
+
+	d.IPAddress = virtualGuest.PrimaryBackendIpAddress
 }
 
 func validateCreateTemplate(createVirtualTemplate *datatypes.SoftLayer_Virtual_Guest_Template) error {
