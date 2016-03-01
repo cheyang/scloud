@@ -82,7 +82,11 @@ var _ = Describe("pkg", func() {
 
 			err = sl_driver.Create()
 
-			fmt.Println("PreCheck...", err)
+			fmt.Println("Create...", err)
+
+			if err != nil {
+				fmt.Println("Create Error", err)
+			}
 
 			if err == nil {
 				if err = utils.WaitFor(drivers.MachineInState(sl_driver, state.Running)); err != nil {
