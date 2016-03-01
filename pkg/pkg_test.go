@@ -57,11 +57,11 @@ var _ = Describe("pkg", func() {
 				NetworkComponents: []datatypes.NetworkComponents{datatypes.NetworkComponents{
 					MaxSpeed: 1000,
 				}},
-				SshKeys:                  []datatypes.SshKey{datatypes.SshKey{Id: 3922}},
-				HourlyBillingFlag:        true,
-				LocalDiskFlag:            true,
-				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
-				PrimaryNetworkComponent:  &datatypes.PrimaryNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
+				SshKeys:                        []datatypes.SshKey{datatypes.SshKey{Id: 3922}},
+				HourlyBillingFlag:              true,
+				LocalDiskFlag:                  true,
+				BlockDeviceTemplateGroup:       &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
+				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
 			}
 
 			fmt.Println(sl_driver)
