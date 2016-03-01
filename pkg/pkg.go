@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/persist"
 	"github.com/cheyang/scloud/pkg/state"
@@ -57,7 +58,7 @@ func Create(store persist.Store, host *host.Host) error {
 func waitForReady(host *host.Host) error {
 	fmt.Printf("Waiting for machine %s to be running, this may take a few minutes...\n", host.Name)
 
-	if err := utils.WaitFor(drivers.WaitFor(drivers.MachineInState(h.Driver, state.Running))); err != nil {
+	if err := utils.WaitFor(utils.WaitFor(drivers.MachineInState(h.Driver, state.Running))); err != nil {
 		return fmt.Errorf("Error waiting for machine %s to be running: %s", host.Name, err)
 	}
 
