@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/cheyang/scloud/pkg/host"
 )
 
 type FileStore struct {
@@ -34,7 +36,7 @@ func (this FileStore) save(host *host.Host) error {
 		host.RawDriver = data
 	}
 
-	data, err = json.MarshalIndent(host, "", "    ")
+	data, err := json.MarshalIndent(host, "", "    ")
 
 	if err != nil {
 		return err

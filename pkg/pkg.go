@@ -46,6 +46,10 @@ func Create(store persist.Store, host *host.Host) error {
 		return fmt.Errorf("Error with waiting for %s: %s", host.Name, err)
 	}
 
+	if err = store.Update(host); err != nil {
+		return fmt.Errorf("Error with Saving for %s: %s", host.Name, err)
+	}
+
 	return nil
 
 }
