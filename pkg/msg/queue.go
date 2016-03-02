@@ -23,15 +23,15 @@ func NewQueue(capacity int) *Queue {
 
 // Add  entry in asynchronously
 func (p *Queue) Send(entry interface{}) {
-	fmt.Fprintf(os.Stderr, "Before adding entry %s", entry)
-	msg <- entry
-	fmt.Fprintf(os.Stderr, "After adding entry %s", entry)
+	fmt.Fprintf(os.Stderr, "Before adding entry %s to %s", entry, p.msg)
+	p.msg <- entry
+	fmt.Fprintf(os.Stderr, "After adding entry %s to %s", entry, p.msg)
 }
 
 // Recieve entry in asynchronously
 func (p *Queue) Recieve() interface{} {
-	fmt.Fprintf(os.Stderr, "Before adding entry %s", entry)
-	msg := <-recievers
-	fmt.Fprintf(os.Stderr, "After adding entry %s", entry)
+	fmt.Fprintf(os.Stderr, "waiting for entry in queue %s", p.msg)
+	entry := <-p.msg
+	fmt.Fprintf(os.Stderr, "Getting entry %s from %s", entry, p.msg)
 	return entry
 }
