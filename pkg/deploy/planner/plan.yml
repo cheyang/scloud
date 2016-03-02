@@ -1,0 +1,12 @@
+roles:
+	- kube-masters:
+		num: 1
+    - kube-nodes:
+		num: 2
+		least_num: 1
+	- etcd:
+	    num: 1
+		sharewith: kube-masters
+	- registry:
+		ip_addresses:
+			- 10.62.71.77
