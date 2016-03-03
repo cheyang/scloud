@@ -59,7 +59,7 @@ var _ = Describe("Msg", func() {
 				fmt.Fprintf(os.Stdout, "receive %s\n", entry)
 
 				if h, ok := entry.(*host.Host); ok {
-					fmt.Fprintf(os.Stdout, "exec %s", h.GetMachineName())
+					fmt.Fprintf(os.Stdout, "exec %s", h.Driver.GetMachineName())
 				}
 			}
 		})
