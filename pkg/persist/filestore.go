@@ -156,12 +156,7 @@ func (this FileStore) NewHost(driver drivers.Driver) (host *host.Host, err error
 
 	err = this.save(host)
 
-	return &host.Host{
-		Name:        driver.GetMachineName(),
-		Driver:      driver,
-		DriverName:  driver.DriverName(),
-		HostOptions: hostOptions,
-	}, nil
+	return host, nil
 
 }
 
