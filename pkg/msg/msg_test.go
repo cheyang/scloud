@@ -32,7 +32,7 @@ var _ = Describe("Msg", func() {
 			for i := 0; i < num; i++ {
 				hosts[i] = &host.Host{Name: strconv.Itoa(i),
 					Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i)}}
-				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s", hosts[i].Driver.GetMachineName())
+				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", hosts[i].Driver.GetMachineName())
 			}
 		})
 
@@ -61,7 +61,7 @@ var _ = Describe("Msg", func() {
 				spew.Printf("entry =%#+v\n", entry)
 
 				if h, ok := entry.(*host.Host); ok {
-					fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s", h.Driver.GetMachineName())
+					fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", h.Driver.GetMachineName())
 				}
 			}
 		})
