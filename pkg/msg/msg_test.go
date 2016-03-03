@@ -61,7 +61,7 @@ var _ = Describe("Msg", func() {
 				spew.Printf("entry =%#+v\n", entry)
 
 				if h, ok := entry.(*host.Host); ok {
-					fmt.Fprintf(os.Stdout, "exec %s", h.Driver.GetMachineName())
+					fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s", h.Driver.GetMachineName())
 				}
 			}
 		})
