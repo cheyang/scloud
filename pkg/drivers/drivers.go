@@ -18,7 +18,7 @@ type Driver interface {
 	DriverName() string
 
 	// Set the config for creating VM
-	SetCreateConfigs(config interface{})
+	SetCreateConfigs(config interface{}) error
 
 	//Precheck before the create request
 	PreCreateCheck() error

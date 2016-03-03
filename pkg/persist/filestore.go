@@ -136,19 +136,33 @@ func (this FileStore) loadConfig(h *host.Host) (*host.Host, error) {
 	return h, err
 }
 
-func (this FileStore) NewHost(host *host.Host) error {
+func (this FileStore) NewHost(driver drivers.Driver) (host *host.Host, error) {
 	hostDir := filepath.Join(this.getMachinesDir(), host.Name)
 
 	_, err := os.Stat(hostDir)
+	
+	
 
 	// if the directory has already existed
 	if !os.IsNotExist(err) {
-		return HostEntryAlreadyExistError
+		return nil,HostEntryAlreadyExistError
+	}
+	
+	host := &host.Host{
+		Name:          driver.GetMachineName(),
+		Driver:        driver,
+		DriverName:    driver.DriverName(),
+		HostOptions:   hostOptions,
 	}
 
 	err = this.save(host)
 
-	return err
+	return &host.Host{
+		Name:          driver.GetMachineName(),
+		Driver:        driver,
+		DriverName:    driver.DriverName(),
+		HostOptions:   hostOptions,
+	}, nil
 
 }
 

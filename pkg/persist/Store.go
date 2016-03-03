@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/cheyang/scloud/pkg/host"
+	"github.com/cheyang/scloud/pkg/drivers"
 )
 
 type Store interface {
@@ -13,7 +14,7 @@ type Store interface {
 	Exists(name string) (bool, error)
 
 	// NewHost will initialize a new host machine
-	NewHost(host *host.Host) error
+	NewHost(driver drivers.Driver) (host *host.Host, error)
 
 	// Update persists with existing host
 	Update(host *host.Host) error

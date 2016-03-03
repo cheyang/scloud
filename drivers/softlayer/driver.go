@@ -82,11 +82,15 @@ func (d *Driver) DriverName() string {
 	return "softlayer"
 }
 
-func (d *Driver) SetCreateConfigs(config interface{}) {
+func (d *Driver) SetCreateConfigs(config interface{}) error {
 	if createConfig, ok := config.(*datatypes.SoftLayer_Virtual_Guest_Template); ok {
 		d.VirtualGuestTemplate = createConfig
 		d.VirtualGuestTemplate.Hostname = d.MachineName
+	} else {
+		return fmt.Errorf("Not compatible interface %s", config)
 	}
+
+	return nil
 }
 
 func (d *Driver) Create() error {

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net"
 	"path/filepath"
+
+	"github.com/cheyang/scloud/pkg/state"
 )
 
 const (
@@ -28,6 +30,10 @@ func (d *BaseDriver) DriverName() string {
 // GetMachineName return the machine name, by default, it's hostname
 func (d *BaseDriver) GetMachineName() string {
 	return d.MachineName
+}
+
+func (d *BaseDriver) GetSSHHostname() (string, error) {
+	return d.GetIP()
 }
 
 func (d *BaseDriver) GetIP() (string, error) {
@@ -76,10 +82,22 @@ func (d *BaseDriver) GetSSHPort() (int, error) {
 }
 
 func (d *BaseDriver) PreCreateCheck() error {
-	return nil
+	return errors.New("Not implemented")
 }
 
 // ResolveStorePath returns the store path where the machine is
 func (d *BaseDriver) ResolveStorePath(file string) string {
 	return filepath.Join(d.StorePath, "machines", d.MachineName, file)
+}
+
+func (d *BaseDriver) Create() error {
+	return errors.New("Not implemented")
+}
+
+func (d *BaseDriver) GetState() (state.State, error) {
+	return state.None, errors.New("Not implemented")
+}
+
+func (d *BaseDriver) SetCreateConfigs(config interface{}) error {
+	return errors.New("Not implemented")
 }

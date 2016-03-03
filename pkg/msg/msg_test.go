@@ -1,6 +1,13 @@
 package msg_test
 
 import (
+	"fmt"
+	"os"
+	//	"runtime"
+	"strconv"
+	//	"github.com/cheyang/scloud/drivers/softlayer"
+	"github.com/cheyang/scloud/pkg/drivers"
+	"github.com/cheyang/scloud/pkg/host"
 	. "github.com/cheyang/scloud/pkg/msg"
 
 	. "github.com/onsi/ginkgo"
@@ -8,5 +15,54 @@ import (
 )
 
 var _ = Describe("Msg", func() {
+	var (
+		hosts []*host.Host
+		num   int
+	)
 
+	Context("#Pub for specified number", func() {
+
+		BeforeEach(func() {
+
+			num = 5
+
+			hosts = make([]*host.Host, num)
+
+			for i := 0; i < num; i++ {
+				hosts[i] = &host.Host{Name: strconv.Itoa(i),
+					Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i)}}
+
+			}
+		})
+
+		//		runtime.GOMAXPROCS(runtime.NumCPU())
+		It("Test members", func() {
+			for i := 0; i < num; i++ {
+				fmt.Fprintf(os.Stdout, "receive  %d %s", i, hosts[i])
+			}
+
+			Expect(len(hosts)).ToNot(BeNil())
+
+			queue := NewQueue(num)
+
+			defer queue.Close()
+
+			for i := 0; i < num; i++ {
+				go func(n int) {
+					fmt.Fprintf(os.Stdout, "call %d", n)
+					queue.Send(hosts[n])
+				}(i)
+			}
+
+			for i := 0; i < num; i++ {
+				entry := queue.Recieve()
+				fmt.Fprintf(os.Stdout, "receive %s\n", entry)
+
+				if h, ok := entry.(*host.Host); ok {
+					fmt.Fprintf(os.Stdout, "exec %s", h.GetMachineName())
+				}
+			}
+		})
+
+	})
 })
