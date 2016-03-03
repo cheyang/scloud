@@ -14,7 +14,7 @@ type Store interface {
 	Exists(name string) (bool, error)
 
 	// NewHost will initialize a new host machine
-	NewHost(driver drivers.Driver) (host *host.Host, err error)
+	NewHost(driver drivers.Driver) (*host.Host, error)
 
 	// Update persists with existing host
 	Update(host *host.Host) error
