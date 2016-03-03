@@ -25,7 +25,7 @@ var _ = Describe("Msg", func() {
 
 		BeforeEach(func() {
 
-			num = 5
+			num = 2
 
 			hosts = make([]*host.Host, num)
 
@@ -50,7 +50,7 @@ var _ = Describe("Msg", func() {
 
 			for i := 0; i < num; i++ {
 				go func(n int) {
-					fmt.Fprintf(os.Stdout, "call %d", n)
+					fmt.Fprintf(os.Stdout, "call %d\n", n)
 					queue.Send(hosts[n])
 				}(i)
 			}
