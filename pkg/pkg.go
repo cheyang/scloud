@@ -41,9 +41,9 @@ func Create(store persist.Store, host *host.Host) error {
 		return fmt.Errorf("Error in driver during machine %s creation: %s", host.Name, err)
 	}
 
-	if err := store.NewHost(host); err != nil {
-		return fmt.Errorf("Error with saving meta data for %s", host.Name)
-	}
+	//	if err := store.NewHost(host); err != nil {
+	//		return fmt.Errorf("Error with saving meta data for %s", host.Name)
+	//	}
 
 	if err := waitForReady(host); err != nil {
 		return fmt.Errorf("Error with waiting for %s: %s", host.Name, err)
