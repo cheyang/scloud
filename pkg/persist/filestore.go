@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/drivers/rpc"
 	"github.com/cheyang/scloud/pkg/host"
 )
@@ -136,32 +137,30 @@ func (this FileStore) loadConfig(h *host.Host) (*host.Host, error) {
 	return h, err
 }
 
-func (this FileStore) NewHost(driver drivers.Driver) (host *host.Host, error) {
+func (this FileStore) NewHost(driver drivers.Driver) (host *host.Host, err error) {
 	hostDir := filepath.Join(this.getMachinesDir(), host.Name)
 
-	_, err := os.Stat(hostDir)
-	
-	
+	_, err = os.Stat(hostDir)
 
 	// if the directory has already existed
 	if !os.IsNotExist(err) {
-		return nil,HostEntryAlreadyExistError
+		return nil, HostEntryAlreadyExistError
 	}
-	
-	host := &host.Host{
-		Name:          driver.GetMachineName(),
-		Driver:        driver,
-		DriverName:    driver.DriverName(),
-		HostOptions:   hostOptions,
+
+	host = &host.Host{
+		Name:        driver.GetMachineName(),
+		Driver:      driver,
+		DriverName:  driver.DriverName(),
+		HostOptions: hostOptions,
 	}
 
 	err = this.save(host)
 
 	return &host.Host{
-		Name:          driver.GetMachineName(),
-		Driver:        driver,
-		DriverName:    driver.DriverName(),
-		HostOptions:   hostOptions,
+		Name:        driver.GetMachineName(),
+		Driver:      driver,
+		DriverName:  driver.DriverName(),
+		HostOptions: hostOptions,
 	}, nil
 
 }
