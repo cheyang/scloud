@@ -32,7 +32,7 @@ var _ = Describe("Msg", func() {
 			for i := 0; i < num; i++ {
 				hosts[i] = &host.Host{Name: strconv.Itoa(i),
 					Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i)}}
-
+				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s", hosts[i].Driver.GetMachineName())
 			}
 		})
 
