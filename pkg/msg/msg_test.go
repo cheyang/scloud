@@ -3,7 +3,7 @@ package msg_test
 import (
 	"fmt"
 	"os"
-	//	"runtime"
+	"runtime"
 	"strconv"
 	//	"github.com/cheyang/scloud/drivers/softlayer"
 	"github.com/cheyang/scloud/pkg/drivers"
