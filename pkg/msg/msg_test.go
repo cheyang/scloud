@@ -9,6 +9,7 @@ import (
 	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
 	. "github.com/cheyang/scloud/pkg/msg"
+	"github.com/davecgh/go-spew/spew"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -35,7 +36,7 @@ var _ = Describe("Msg", func() {
 			}
 		})
 
-		//		runtime.GOMAXPROCS(runtime.NumCPU())
+		runtime.GOMAXPROCS(runtime.NumCPU())
 		It("Test members", func() {
 			for i := 0; i < num; i++ {
 				fmt.Fprintf(os.Stdout, "receive  %d %s", i, hosts[i])
@@ -56,7 +57,8 @@ var _ = Describe("Msg", func() {
 
 			for i := 0; i < num; i++ {
 				entry := queue.Recieve()
-				fmt.Fprintf(os.Stdout, "receive %s\n", entry)
+				//				fmt.Fprintf(os.Stdout, "receive %s\n", entry)
+				spew.Printf("entry =%#+v\n", entry)
 
 				if h, ok := entry.(*host.Host); ok {
 					fmt.Fprintf(os.Stdout, "exec %s", h.Driver.GetMachineName())
