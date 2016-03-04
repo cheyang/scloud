@@ -23,6 +23,10 @@ func NewQueue(capacity int) *Queue {
 	}
 }
 
+func (p *Queue) Length() int {
+	return p.Capacity
+}
+
 // Add  entry in asynchronously
 func (p *Queue) Send(entry interface{}) {
 	fmt.Fprintf(os.Stderr, "Before adding entry %s to %s\n", entry, p.msg)

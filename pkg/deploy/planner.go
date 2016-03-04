@@ -4,34 +4,51 @@ package deploy
 import (
 	"fmt"
 	"os"
+
+	"github.com/cheyang/scloud/pkg/msg"
 )
 
 type Planner struct {
-	Capacity  int
-	recievers chan interface{} // the channel of entries in planner
+	ProvisionerObserver msg.Receiver
+	msg.Sender
+
+	Deployment // Operate on map, no need pointer
+
+	*DeploymentSpec
+
+	TargetSize int
 }
 
-func NewPlanner(capacity int) *Planner {
-
-	chs := make(chan interface{}, capacity)
+func NewPlanner(spec *DeploymentSpec) *Planner {
 
 	return &Planner{
-		Capacity:  capacity,
-		recievers: chs,
+		TargetSize:     spec.GetTargetSize(),
+		DeploymentSpec: spec,
+		Sender:         msg.NewQueue(targetSize),
+		Receiver:       nil,
 	}
 }
 
-// Add  entry in asynchronously
-func (p *Planer) Add(entry interface{}) {
-	fmt.Fprintf(os.Stderr, "Before adding entry %s", entry)
-	recievers <- entry
-	fmt.Fprintf(os.Stderr, "After adding entry %s", entry)
+// Register to cloud Provisioner
+func (p *Planner) RegisterOberserver(r msg.Receiver) {
+	p.ProvisionerObserver = r
 }
 
-// Recieve entry in asynchronously
-func (p *Planer) Get() interface{} {
-	fmt.Fprintf(os.Stderr, "Before adding entry %s", entry)
-	entry := <-recievers
-	fmt.Fprintf(os.Stderr, "After adding entry %s", entry)
-	return entry
+func (p *Planner) OnPlanning() {
+	if p.ProvisionerObserver == nil {
+		fmt.Fprintf(os.Stderr, "p.ProvisionerObserver is not set, exit!")
+		return
+	}
+
+	for i := 0; i < p.TargetSize; i++ {
+		fmt.Fprintf(os.Stderr, "Begin to receive %d times provision notification", i+1)
+		entry := p.ProvisionerObserver.Recieve()
+		fmt.Fprintf(os.Stderr, "Finish receiving %d times provision notification entry %v", i+1, entry)
+		p.AddHostToPlan(entry)
+	}
+
+}
+
+func (p *Planner) AddHostToPlan(h *host.Host) {
+
 }

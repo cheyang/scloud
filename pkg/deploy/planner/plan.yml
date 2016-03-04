@@ -1,12 +1,17 @@
 roles:
-	- kube-masters:
-		num: 1
-    - kube-nodes:
-		num: 2
-		least_num: 1
-	- etcd:
-	    num: 1
-		sharewith: kube-masters
-	- registry:
-		ip_addresses:
-			- 10.62.71.77
+	- name:kube-masters
+	  num: 1
+	  hostnamePrefix: abchost
+    - name: kube-nodes
+	  num: 2
+	  minNum: 1
+	- name: etcd
+	  num: 3
+	- name: registry
+	  ipAddresses:
+		- 10.62.71.77
+reuse_group:
+	- group_name: kube1
+	  members:
+		- kube-masters
+		- etcd
