@@ -50,5 +50,9 @@ func (p *Planner) OnPlanning() {
 }
 
 func (p *Planner) AddHostToPlan(h *host.Host) {
-
+		
+		
+		for _, role range p.DeploymentSpec.Roles{
+			
+		}
 }
