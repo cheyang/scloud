@@ -2,6 +2,8 @@
 package deployment
 
 import (
+	"strings"
+
 	"github.com/cheyang/scloud/pkg/host"
 )
 
@@ -10,44 +12,19 @@ type Deployment struct {
 }
 
 type DeploymentSpec struct {
-	Roles      []*DeploymentRole
-	ReuseGroup map[string]([]string)
+	Roles []*DeploymentRole
+	*ReuseGroup
 	targetSize int
 }
 
+// Define the Reuse group for the machines which can be shared
 type ReuseGroup struct {
-	*GroupMember
+	Group []*GroupMember
 }
 
 type GroupMemnber struct {
 	GroupName string
 	Members   []string
-}
-
-// Get the target size of the deployment spec
-func (spec *DeploymentSpec) GetTargetSize() int {
-
-	var groups map[string]([]*DeploymentRole) = make(map[string]([]*DeploymentRole))
-
-	if spec.targetSize <= 0 {
-		totalCount := 0
-		sharedCount := 0
-
-		for _, role := range Roles {
-			totalCount += role.MaxNum
-
-			groups[role.Name] = role
-
-		}
-
-		for _, value := range ReuseGroup {
-
-		}
-
-		spec.targetSize = totalCount - sharedCount
-	}
-
-	return spec.targetSize
 }
 
 type DeploymentRole struct {
@@ -61,10 +38,57 @@ type DeploymentRole struct {
 
 	IpAddresses []string // ip addresses which can be defined before provisioning
 
-	ShareWith *[]DeploymentRole
+	//	ShareWith *[]DeploymentRole
+
+	groupName string // if it's not set, means not shared with other role
+}
+
+// Get the target size of the deployment spec
+func (spec *DeploymentSpec) GetTargetSize() int {
+
+	var roleMap map[string](*DeploymentRole) = make(map[string]([]*DeploymentRole))
+
+	if spec.targetSize <= 0 {
+		totalCount := 0
+		sharedCount := 0
+
+		for _, role := range Roles {
+			totalCount += role.MaxNum
+
+			roleMap[role.Name] = role
+		}
+
+		for _, group := range spec.ReuseGroup {
+
+			max := 0
+
+			for _, member := range group.members {
+				sharedCount += roleMap[member].MaxNum
+
+				if roleMap[member].MaxNum > max {
+					max = roleMap[member].MaxNum
+				}
+			}
+
+			sharedCount = sharedCount - max
+
+		}
+
+		spec.targetSize = totalCount - sharedCount
+	}
+
+	return spec.targetSize
 }
 
 // Check if this host should be used as
-func (role Role) ShouldBeAssign(h *host.Host) bool {
+func (r DeploymentRole) Match(h *host.Host) bool {
+	match := true
 
+	if r.HostnamePrefix != "" {
+		if !strings.HasPrefix(h.GetMachineName(), r.HostnamePrefix) {
+			match = false
+		}
+	}
+
+	return match
 }
