@@ -1,5 +1,5 @@
 // deployment.go
-package deployment
+package deploy
 
 import (
 	"strings"
@@ -8,18 +8,71 @@ import (
 )
 
 type Deployment struct {
-	Nodes map[string]*host.Host // role name: host
+	Nodes map[string][]*host.Host // role name: host
 }
 
 type DeploymentSpec struct {
-	Roles []*DeploymentRole
+	Roles    []*DeploymentRole
+	RolesMap map[string]*DeploymentRole
 	*ReuseGroup
 	targetSize int
 }
 
+// Initialize the role maps for the future usage
+func (d *DeploymentSpec) InitRoleMaps() {
+
+	// skip if the role maps already init
+	if d.RolesMap != nil {
+		return
+	}
+
+	d.RolesMap = make(map[string]*DeploymentRole)
+
+	for _, role = range d.Roles {
+		d.RolesMap[role.Name] = role
+	}
+
+}
+
+// Find slice of group by name
+func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []*DeploymentRole) {
+
+	if d.ReuseGroup == nil {
+		return members
+	}
+
+	// Need init groupMap
+	if len(d.ReuseGroup.GroupMap) == 0 {
+		if len(d.ReuseGroup.Group) == 0 {
+			return members
+		}
+
+		d.InitRoleMaps()
+
+	}
+
+}
+
 // Define the Reuse group for the machines which can be shared
 type ReuseGroup struct {
-	Group []*GroupMember
+	Group    []*GroupMember
+	GroupMap map[string][]string
+}
+
+// Init the group maps
+func (r ReuseGroup) InitGroupMaps() {
+
+	if r.GroupMap != nil {
+		return
+	}
+
+	r.GroupMap = make(map[string][]string)
+
+	for _, g := range r.Group {
+
+		r.Group[g.GroupName] = g.Members
+	}
+
 }
 
 type GroupMemnber struct {

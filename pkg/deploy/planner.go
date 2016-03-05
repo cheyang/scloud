@@ -2,11 +2,14 @@
 package deploy
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/cheyang/scloud/pkg/msg"
 )
+
+var FailedToAddHostToPlanError error = errors.New("Failed to add host to the deployment plan!")
 
 type Planner struct {
 	ProvisionerObserver msg.Receiver
@@ -15,8 +18,6 @@ type Planner struct {
 	Deployment // Operate on map, no need pointer
 
 	*DeploymentSpec
-
-	TargetSize int
 }
 
 func NewPlanner(spec *DeploymentSpec) *Planner {
@@ -49,10 +50,29 @@ func (p *Planner) OnPlanning() {
 
 }
 
-func (p *Planner) AddHostToPlan(h *host.Host) {
-		
-		
-		for _, role range p.DeploymentSpec.Roles{
-			
+// Add the host entry to plan
+func (p *Planner) AddHostToPlan(h *host.Host) error {
+
+	added := false
+
+	for _, role := range p.DeploymentSpec.Roles {
+		if role.Match(h) {
+			if v, ok := p.Deployment.Nodes[role.Name]; ok {
+				p.Deployment.Nodes[role.Name] = append(v, h)
+			} else {
+				p.Deployment.Nodes[role.Name] = []*host.Host{h}
+			}
+
+			if role.groupName != "" {
+			}
+
 		}
+	}
+
+	if !added {
+		return FailedToAddHostToPlanError
+	}
+
+	return nil
+
 }
