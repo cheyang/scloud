@@ -57,15 +57,21 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 	for _, role := range p.DeploymentSpec.Roles {
 		if role.Match(h) {
-			if v, ok := p.Deployment.Nodes[role.Name]; ok {
-				p.Deployment.Nodes[role.Name] = append(v, h)
-			} else {
-				p.Deployment.Nodes[role.Name] = []*host.Host{h}
-			}
+
+			p.Deployment.Add(role.Name, h)
 
 			if role.groupName != "" {
+				gMembers := p.DeploymentSpec.FindReuseGroupByName(role.groupName)
+
+				for _, gMember := range gMembers {
+					p.Deployment.Add(gMember.Name, h)
+				}
+
 			}
 
+			added = true
+
+			break
 		}
 	}
 

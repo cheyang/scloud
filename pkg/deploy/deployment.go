@@ -11,10 +11,19 @@ type Deployment struct {
 	Nodes map[string][]*host.Host // role name: host
 }
 
+func (d *Deployment) Add(name string, h *host.Host) {
+
+	if v, ok := d.Nodes[role.Name]; ok {
+		d.Nodes[role.Name] = append(v, h)
+	} else {
+		d.Nodes[role.Name] = []*host.Host{h}
+	}
+}
+
 type DeploymentSpec struct {
-	Roles    []*DeploymentRole
-	RolesMap map[string]*DeploymentRole
+	Roles []*DeploymentRole
 	*ReuseGroup
+	RolesMap   map[string]*DeploymentRole
 	targetSize int
 }
 
@@ -48,15 +57,22 @@ func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []*Deploymen
 		}
 
 		d.InitRoleMaps()
+		d.ReuseGroup.InitGroupMaps()
 
 	}
 
+	return d.ReuseGroup.GroupMap[name]
 }
 
 // Define the Reuse group for the machines which can be shared
 type ReuseGroup struct {
 	Group    []*GroupMember
 	GroupMap map[string][]string
+}
+
+type GroupMemnber struct {
+	GroupName string
+	Members   []string
 }
 
 // Init the group maps
@@ -73,11 +89,6 @@ func (r ReuseGroup) InitGroupMaps() {
 		r.Group[g.GroupName] = g.Members
 	}
 
-}
-
-type GroupMemnber struct {
-	GroupName string
-	Members   []string
 }
 
 type DeploymentRole struct {
