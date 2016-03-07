@@ -11,10 +11,10 @@ import (
 var _ = Describe("Deploy", func() {
 
 	var (
-		spec    DeploymentSpec
-		roles   []*DeploymentRole
-		h       []*host.Host
-		specNum int
+		//		spec    DeploymentSpec
+		roles []*DeploymentRole
+		//		h       []*host.Host
+
 	)
 
 	BeforeEach(func() {
