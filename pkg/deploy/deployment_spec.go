@@ -133,8 +133,8 @@ func (spec *DeploymentSpec) GetTargetSize() int {
 	return spec.targetSize
 }
 
-// Get the least deployable size of th
-func (d *DeploymentSpec) GetLeastDeployableSize() {
+// Get the least deployable size of the deployment
+func (d *DeploymentSpec) GetLeastDeployableSize() int {
 	roleMap := make(map[string](*DeploymentRole))
 
 	if d.leastSize <= 0 {
@@ -154,7 +154,9 @@ func (d *DeploymentSpec) GetLeastDeployableSize() {
 			roleMap[role.Name] = role
 		}
 
-		for _, group := range d.ReuseGroup {
+		groups := d.ReuseGroup.Group
+
+		for _, group := range groups {
 
 			// Found the max of min num
 			max := 0
