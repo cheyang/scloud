@@ -25,8 +25,12 @@ func (d *Deployment) Size() int {
 
 	uniqueHostMap := make(map[string]bool)
 
-	for _, v := range d.Nodes {
-		uniqueHostMap[v.Driver.GetMachineName()] = true
+	for _, nodes := range d.Nodes {
+
+		for _, node := range nodes {
+			uniqueHostMap[node.Driver.GetMachineName()] = true
+		}
+
 	}
 
 	return len(uniqueHostMap)
