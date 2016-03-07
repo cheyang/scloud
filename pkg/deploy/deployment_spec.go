@@ -31,6 +31,24 @@ func (d *DeploymentSpec) InitRoleMaps() {
 
 }
 
+func (d *DeploymentSpec) GetRoleMaps() map[string]*DeploymentRole {
+
+	// skip if the role maps already init
+	if d.RolesMap == nil {
+		d.InitRoleMaps()
+	}
+
+	return d.RolesMap
+}
+
+func (d *DeploymentSpec) FindRoleByName(name string) *DeploymentRole {
+	InitRoleMaps()
+
+	k, _ := d.RolesMap[name]
+
+	return k
+}
+
 // Find slice of group by name
 func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []string) {
 

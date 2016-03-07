@@ -121,7 +121,21 @@ func (p *Planner) Run() {
  */
 
 func (p *Planner) CheckReadyToPublish() bool {
-	return p.Deployment.Size() >= p.DeploymentSpec.GetLeastDeployableSize()
+
+	ready := false
+
+	// If least deployment size can't reach, return false
+	if p.Deployment.Size() < p.DeploymentSpec.GetLeastDeployableSize() {
+		return ready
+	}
+
+	//	for k, v := range p.Deployment {
+	//		role := p.DeploymentSpec.FindRoleByName(k)
+
+	//		if role
+	//	}
+
+	return ready
 }
 
 func (p *Planner) PublishDeployment() error {

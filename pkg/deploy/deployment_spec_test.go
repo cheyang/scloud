@@ -62,8 +62,8 @@ var _ = Describe("Deployment Spec", func() {
 	Context("#Generate deployment spec", func() {
 		It("create a new VM on Softlayer", func() {
 			Expect(roles[3].Name).To(Equal("registry"))
-			Expect(spec.GetTargetSize()).To(BeEquivalentTo(5))
-			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(5))
+			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
+			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
 		})
 	})
 })
