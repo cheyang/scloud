@@ -142,10 +142,10 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 			// If groupName is empty, so no share with other role
 			if role.groupName != "" {
-				gMembers := p.DeploymentSpec.FindReuseGroupByName(role.groupName)
+				memberNames := p.DeploymentSpec.FindReuseGroupByName(role.groupName)
 
-				for _, gMember := range gMembers {
-					p.Deployment.Add(gMember.Name, h)
+				for _, gMember := range memberNames {
+					p.Deployment.Add(gMember, h)
 				}
 
 			}

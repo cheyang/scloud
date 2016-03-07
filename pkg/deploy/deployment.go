@@ -13,10 +13,10 @@ type Deployment struct {
 
 func (d *Deployment) Add(name string, h *host.Host) {
 
-	if v, ok := d.Nodes[role.Name]; ok {
-		d.Nodes[role.Name] = append(v, h)
+	if v, ok := d.Nodes[name]; ok {
+		d.Nodes[name] = append(v, h)
 	} else {
-		d.Nodes[role.Name] = []*host.Host{h}
+		d.Nodes[name] = []*host.Host{h}
 	}
 }
 
@@ -26,7 +26,7 @@ func (d *Deployment) Size() int {
 	uniqueHostMap := make(map[string]bool)
 
 	for _, v := range d.Nodes {
-		uniqueHostMap[v.GetMachineName()] = true
+		uniqueHostMap[v.Driver.GetMachineName()] = true
 	}
 
 	return len(uniqueHostMap)
@@ -50,14 +50,14 @@ func (d *DeploymentSpec) InitRoleMaps() {
 
 	d.RolesMap = make(map[string]*DeploymentRole)
 
-	for _, role = range d.Roles {
+	for _, role := range d.Roles {
 		d.RolesMap[role.Name] = role
 	}
 
 }
 
 // Find slice of group by name
-func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []*DeploymentRole) {
+func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []string) {
 
 	if d.ReuseGroup == nil {
 		return members
