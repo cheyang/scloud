@@ -2,7 +2,6 @@
 package deploy
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -88,18 +87,18 @@ func (p *Planner) Run() {
 			if p.Deployment.Size()-lastPublishSize < cStepSize {
 				gap := p.Deployment.Size() - lastPublishSize
 				fmt.Fprintf(os.Stderr, "Current deploymnet size is %d, the last deployment size %d, the gap between them is %d, while the expected gap is %d\n ", p.Deployment.Size(), lastPublishSize, gap, cStepSize)
-				fmt.Fprintln(os.stderr, "jump out the publish process. ")
+				fmt.Fprintln(os.Stderr, "jump out the publish process. ")
 				continue
 			}
 
-			fmt.Fprintln(os.stderr, "Start the publish process. ")
+			fmt.Fprintln(os.Stderr, "Start the publish process. ")
 
 			err := p.PublishDeployment()
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to publish the deployment due to %s\n", err)
 			}
 
-			fmt.Fprintln(os.stderr, "Finish the publish process. ")
+			fmt.Fprintln(os.Stderr, "Finish the publish process. ")
 
 		} else {
 			fmt.Fprintf(os.Stderr, "The current deployment size is %d, which is less than minimum deployment size %d\n", p.Deployment.Size(), p.DeploymentSpec.GetLeastDeployableSize())

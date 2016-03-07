@@ -83,7 +83,7 @@ type ReuseGroup struct {
 	GroupMap map[string][]string
 }
 
-type GroupMemnber struct {
+type GroupMember struct {
 	GroupName string
 	Members   []string
 }
