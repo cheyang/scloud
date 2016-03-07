@@ -25,7 +25,7 @@ var _ = Describe("Planner Test", func() {
 		//		h       []*host.Host
 		deployment Deployment
 		planner    *Planner
-		waitgroup  sync.WaitGroup
+		waitgroup  *sync.WaitGroup
 		hosts      []*host.Host
 		num        int
 	)
