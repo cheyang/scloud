@@ -146,7 +146,7 @@ func (d *DeploymentSpec) GetLeastDeployableSize() int {
 			num := role.MaxNum
 
 			if role.MinNum > 0 {
-				num := role.MinNum
+				num = role.MinNum
 			}
 
 			totalCount += num
@@ -166,7 +166,7 @@ func (d *DeploymentSpec) GetLeastDeployableSize() int {
 				num := roleMap[member].MaxNum
 
 				if roleMap[member].MinNum > 0 {
-					num := roleMap[member].MinNum
+					num = roleMap[member].MinNum
 				}
 
 				sharedCount += num
