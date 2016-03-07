@@ -34,6 +34,7 @@ var _ = Describe("Deployment Spec", func() {
 			&DeploymentRole{
 				Name:      "etcd",
 				MaxNum:    3,
+				MinNum:    1,
 				groupName: "k8s1",
 			},
 			&DeploymentRole{
