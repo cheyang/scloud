@@ -4,12 +4,14 @@ package msg
 import (
 	"fmt"
 	"os"
+	"sync"
 )
 
 type Queue struct {
 	Capacity int
 	msg      chan interface{} // the channel of entries in planner
 	done     bool
+	//	lock     *sync.Mutex
 }
 
 func NewQueue(capacity int) *Queue {
