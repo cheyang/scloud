@@ -27,9 +27,15 @@ func (d *Deployment) FindHostsByName(name string) []*host.Host {
 }
 
 // caculate the number of hosts by name
-func (d *Deployment) CaculateHostNumberByName(name string) int {
+func (d *Deployment) GetHostNumberByName(name string) int {
 
-	return len(FindHostsByName(name))
+	hosts := d.FindHostsByName(name)
+
+	if hosts == nil {
+		return 0
+	}
+
+	return len(hosts)
 
 }
 
