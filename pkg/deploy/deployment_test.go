@@ -1,7 +1,8 @@
-package deploy_test
+package deploy
 
 import (
-	. "github.com/cheyang/scloud/pkg/deploy"
+	//	. "github.com/cheyang/scloud/pkg/deploy"
+	"github.com/cheyang/scloud/pkg/host"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
