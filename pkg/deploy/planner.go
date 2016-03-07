@@ -159,7 +159,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan ", h.Driver.GetMachineName())
 
-	if p.Deployment == nil {
+	if p.Deployment.Nodes == nil {
 		p.Deployment = NewDeployment(p.DeploymentSpec.CountOfRoles())
 	}
 
