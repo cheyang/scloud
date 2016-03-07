@@ -180,7 +180,7 @@ func (d *DeploymentSpec) GetLeastDeployableSize() int {
 
 		}
 
-		d.targetSize = totalCount - sharedCount
+		d.leastSize = totalCount - sharedCount
 	}
 
 	return d.leastSize
