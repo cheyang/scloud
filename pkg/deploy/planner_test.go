@@ -74,6 +74,8 @@ var _ = Describe("Planner Test", func() {
 
 		num = spec.GetTargetSize()
 
+		fmt.Println("The target size num: ", num)
+
 		hosts = make([]*host.Host, num)
 
 		for i := 0; i < num; i++ {
