@@ -29,12 +29,12 @@ var _ = Describe("Deployment Spec", func() {
 			},
 			&DeploymentRole{
 				Name:   "kube-nodes",
-				MaxNum: 2,
+				MaxNum: 5,
 			},
 			&DeploymentRole{
-				Name:      "etcd",
-				MaxNum:    3,
-				MinNum:    1,
+				Name:   "etcd",
+				MaxNum: 3,
+				//				MinNum:    1,
 				groupName: "k8s1",
 			},
 			&DeploymentRole{
