@@ -105,13 +105,13 @@ func (spec *DeploymentSpec) GetTargetSize() int {
 		totalCount := 0
 		sharedCount := 0
 
-		for _, role := range Roles {
+		for _, role := range spec.Roles {
 			totalCount += role.MaxNum
 
 			roleMap[role.Name] = role
 		}
 
-		for _, group := range spec.ReuseGroup {
+		for _, group := range spec.ReuseGroup.Group {
 
 			max := 0
 
@@ -137,11 +137,11 @@ func (spec *DeploymentSpec) GetTargetSize() int {
 func (d *DeploymentSpec) GetLeastDeployableSize() {
 	var roleMap map[string](*DeploymentRole) = make(map[string]([]*DeploymentRole))
 
-	if spec.leastSize <= 0 {
+	if d.leastSize <= 0 {
 		totalCount := 0
 		sharedCount := 0
 
-		for _, role := range Roles {
+		for _, role := range d.Roles {
 
 			num := role.MaxNum
 
@@ -154,7 +154,7 @@ func (d *DeploymentSpec) GetLeastDeployableSize() {
 			roleMap[role.Name] = role
 		}
 
-		for _, group := range spec.ReuseGroup {
+		for _, group := range d.ReuseGroup {
 
 			// Found the max of min num
 			max := 0
@@ -178,10 +178,10 @@ func (d *DeploymentSpec) GetLeastDeployableSize() {
 
 		}
 
-		spec.targetSize = totalCount - sharedCount
+		d.targetSize = totalCount - sharedCount
 	}
 
-	return spec.leastSize
+	return d.leastSize
 }
 
 // Check if this host should be used as
