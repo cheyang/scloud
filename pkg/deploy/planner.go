@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/msg"
 )
 
