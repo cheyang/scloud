@@ -20,23 +20,23 @@ var _ = Describe("Deploy", func() {
 	BeforeEach(func() {
 
 		roles = []*DeploymentRole{
-			DeploymentRole{
+			&DeploymentRole{
 				Name:           "kube-master",
 				MaxNum:         1,
 				MinNum:         1,
 				groupName:      "k8s1",
-				hostnamePrefix: "kubemaster",
+				HostnamePrefix: "kubemaster",
 			},
-			DeploymentRole{
+			&DeploymentRole{
 				Name:   "kube-nodes",
 				MaxNum: 2,
 			},
-			DeploymentRole{
+			&DeploymentRole{
 				Name:      "etcd",
 				MaxNum:    3,
 				groupName: "k8s1",
 			},
-			DeploymentRole{
+			&DeploymentRole{
 				Name:        "registry",
 				IpAddresses: []string{"10.62.71.77"},
 			},
@@ -45,6 +45,6 @@ var _ = Describe("Deploy", func() {
 	})
 
 	Context("#Generate deployment spec", func() {
-		Expect(roles[3].Name).To(Equal(registry))
+		Expect(roles[3].Name).To(Equal("registry"))
 	})
 })
