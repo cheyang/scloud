@@ -15,6 +15,13 @@ type DeploymentSpec struct {
 	leastSize  int // least size for deployable
 }
 
+//Get the count of the roles
+func (d *DeploymentSpec) GetCountOfRoles() {
+
+	return len(Roles)
+
+}
+
 // Initialize the role maps for the future usage
 func (d *DeploymentSpec) InitRoleMaps() {
 

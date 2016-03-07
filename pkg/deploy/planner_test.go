@@ -1,3 +1,4 @@
+// deployment_test.go
 package deploy
 
 import (
@@ -8,13 +9,13 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Deploy", func() {
+var _ = Describe("Planner Test", func() {
 
 	var (
-		//		spec    DeploymentSpec
+		spec  DeploymentSpec
 		roles []*DeploymentRole
 		//		h       []*host.Host
-
+		deployment Deployment
 	)
 
 	BeforeEach(func() {
@@ -29,11 +30,12 @@ var _ = Describe("Deploy", func() {
 			},
 			&DeploymentRole{
 				Name:   "kube-nodes",
-				MaxNum: 2,
+				MaxNum: 5,
 			},
 			&DeploymentRole{
-				Name:      "etcd",
-				MaxNum:    3,
+				Name:   "etcd",
+				MaxNum: 3,
+				//				MinNum:    1,
 				groupName: "k8s1",
 			},
 			&DeploymentRole{
@@ -42,11 +44,27 @@ var _ = Describe("Deploy", func() {
 			},
 		}
 
+		reuseGroup := &ReuseGroup{
+			Group: []*GroupMember{
+				&GroupMember{
+					GroupName: "k8s1",
+					Members:   []string{"kube-master", "etcd"},
+				},
+			},
+		}
+
+		spec = DeploymentSpec{
+			Roles:      roles,
+			ReuseGroup: reuseGroup,
+		}
+
 	})
 
 	Context("#Generate deployment spec", func() {
 		It("create a new VM on Softlayer", func() {
 			Expect(roles[3].Name).To(Equal("registry"))
+			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
+			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
 		})
 	})
 })

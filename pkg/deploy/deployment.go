@@ -9,7 +9,11 @@ type Deployment struct {
 	Nodes map[string][]*host.Host // role name: host
 }
 
-func (d *Deployment) Add(name string, h *host.Host) {
+func NewDeployment(capacity int) Deployment {
+	return Deployment{Nodes: make(map[string][]*host.Host, capacity)}
+}
+
+func (d Deployment) Add(name string, h *host.Host) {
 
 	if v, ok := d.Nodes[name]; ok {
 		d.Nodes[name] = append(v, h)
@@ -18,7 +22,7 @@ func (d *Deployment) Add(name string, h *host.Host) {
 	}
 }
 
-func (d *Deployment) FindHostsByName(name string) []*host.Host {
+func (d Deployment) FindHostsByName(name string) []*host.Host {
 
 	v, _ := d.Nodes[name]
 
