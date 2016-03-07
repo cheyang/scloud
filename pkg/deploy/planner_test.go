@@ -25,9 +25,9 @@ var _ = Describe("Planner Test", func() {
 		//		h       []*host.Host
 		deployment Deployment
 		planner    *Planner
-		waitgroup  *sync.WaitGroup
-		hosts      []*host.Host
-		num        int
+		//		waitgroup  *sync.WaitGroup
+		hosts []*host.Host
+		num   int
 	)
 
 	BeforeEach(func() {
@@ -91,13 +91,15 @@ var _ = Describe("Planner Test", func() {
 			//			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
 			//			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
 
+			var waitgroup sync.WaitGroup
+
 			waitgroup.Add(1)
 
 			queue := msg.NewQueue(num)
 
 			defer queue.Close()
 
-			planner = NewPlanner(spec, waitgroup)
+			planner = NewPlanner(spec, &waitgroup)
 
 			planner.RegisterOberserver(queue)
 
