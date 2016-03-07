@@ -43,7 +43,7 @@ func (d *DeploymentSpec) GetRoleMaps() map[string]*DeploymentRole {
 
 // Get the deployable size of each role
 func (d *DeploymentSpec) GetDeployableSizeByName(name string) int {
-	GetRoleMaps()
+	d.GetRoleMaps()
 
 	k, _ := d.RolesMap[name]
 
@@ -57,7 +57,7 @@ func (d *DeploymentSpec) GetDeployableSizeByName(name string) int {
 }
 
 func (d *DeploymentSpec) FindRoleByName(name string) *DeploymentRole {
-	GetRoleMaps()
+	d.GetRoleMaps()
 
 	k, _ := d.RolesMap[name]
 
