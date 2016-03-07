@@ -4,11 +4,14 @@ package deploy
 import (
 	"fmt"
 	//	. "github.com/cheyang/scloud/pkg/deploy"
+	"os"
 	"sync"
 
 	"strconv"
 
+	"github.com/cheyang/scloud/pkg/drivers"
 	"github.com/cheyang/scloud/pkg/host"
+	"github.com/cheyang/scloud/pkg/msg"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -90,7 +93,7 @@ var _ = Describe("Planner Test", func() {
 
 			waitgroup.Add(1)
 
-			queue := NewQueue(num)
+			queue := msg.NewQueue(num)
 
 			defer queue.Close()
 
