@@ -115,7 +115,7 @@ func (spec *DeploymentSpec) GetTargetSize() int {
 
 			max := 0
 
-			for _, member := range group.members {
+			for _, member := range group.Members {
 				sharedCount += roleMap[member].MaxNum
 
 				if roleMap[member].MaxNum > max {
@@ -135,7 +135,7 @@ func (spec *DeploymentSpec) GetTargetSize() int {
 
 // Get the least deployable size of th
 func (d *DeploymentSpec) GetLeastDeployableSize() {
-	var roleMap map[string](*DeploymentRole) = make(map[string]([]*DeploymentRole))
+	roleMap := make(map[string](*DeploymentRole))
 
 	if d.leastSize <= 0 {
 		totalCount := 0
@@ -159,7 +159,7 @@ func (d *DeploymentSpec) GetLeastDeployableSize() {
 			// Found the max of min num
 			max := 0
 
-			for _, member := range group.members {
+			for _, member := range group.Members {
 
 				num := roleMap[member].MaxNum
 
