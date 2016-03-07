@@ -74,7 +74,8 @@ func (r ReuseGroup) InitGroupMaps() {
 
 	for _, g := range r.Group {
 
-		r.Group[g.GroupName] = g.Members
+		r.GroupMap[g.GroupName] = g.Members
+
 	}
 
 }
@@ -98,7 +99,7 @@ type DeploymentRole struct {
 // Get the target size of the deployment spec
 func (spec *DeploymentSpec) GetTargetSize() int {
 
-	var roleMap map[string](*DeploymentRole) = make(map[string]([]*DeploymentRole))
+	roleMap := make(map[string](*DeploymentRole))
 
 	if spec.targetSize <= 0 {
 		totalCount := 0

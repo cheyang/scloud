@@ -2,8 +2,6 @@
 package deploy
 
 import (
-	"strings"
-
 	"github.com/cheyang/scloud/pkg/host"
 )
 
