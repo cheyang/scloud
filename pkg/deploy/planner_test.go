@@ -2,8 +2,11 @@
 package deploy
 
 import (
+	"fmt"
 	//	. "github.com/cheyang/scloud/pkg/deploy"
-	//	"github.com/cheyang/scloud/pkg/host"
+	"sync"
+
+	"github.com/cheyang/scloud/pkg/host"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -12,10 +15,14 @@ import (
 var _ = Describe("Planner Test", func() {
 
 	var (
-		spec  DeploymentSpec
+		spec  *DeploymentSpec
 		roles []*DeploymentRole
 		//		h       []*host.Host
 		deployment Deployment
+		planner    *Planner
+		waitgroup  sync.WaitGroup
+		hosts      []*host.Host
+		num        int
 	)
 
 	BeforeEach(func() {
@@ -53,18 +60,53 @@ var _ = Describe("Planner Test", func() {
 			},
 		}
 
-		spec = DeploymentSpec{
+		spec = &DeploymentSpec{
 			Roles:      roles,
 			ReuseGroup: reuseGroup,
 		}
 
+		deployment = NewDeployment(spec.GetCountOfRoles())
+
+		num = 2
+
+		hosts = make([]*host.Host, num)
+
+		for i := 0; i < num; i++ {
+			hosts[i] = &host.Host{Name: strconv.Itoa(i),
+				Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i),
+					MachineName: fmt.Sprintf("kubemaster-", strconv.Itoa(i))},
+			}
+			fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", hosts[i].Driver.GetMachineName())
+		}
 	})
 
-	Context("#Generate deployment spec", func() {
-		It("create a new VM on Softlayer", func() {
-			Expect(roles[3].Name).To(Equal("registry"))
-			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
-			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
+	Context("#Planner", func() {
+		It("Monitoring Provision work and add to the deployment plan", func() {
+			//			Expect(roles[3].Name).To(Equal("registry"))
+			//			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
+			//			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
+
+			waitgroup.Add(1)
+
+			queue := NewQueue(num)
+
+			defer queue.Close()
+
+			planner = NewPlanner(spec, waitgroup)
+
+			planner.RegisterOberserver(queue)
+
+			go planner.Run()
+
+			for i := 0; i < num; i++ {
+				go func(n int) {
+					fmt.Fprintf(os.Stdout, "call %d\n", n)
+					queue.Send(hosts[n])
+				}(i)
+			}
+
+			waitgroup.Wait()
+
 		})
 	})
 })
