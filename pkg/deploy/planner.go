@@ -36,7 +36,7 @@ func NewPlanner(spec *DeploymentSpec, wait *sync.WaitGroup) *Planner {
 		size = defaultStepSize
 	}
 
-	deployment = NewDeployment(spec.CountOfRoles())
+	deployment := NewDeployment(spec.CountOfRoles())
 
 	return &Planner{
 		//		TargetSize:     spec.GetTargetSize(),
