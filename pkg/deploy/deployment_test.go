@@ -45,6 +45,8 @@ var _ = Describe("Deploy", func() {
 	})
 
 	Context("#Generate deployment spec", func() {
-		Expect(roles[3].Name).To(Equal("registry"))
+		It("create a new VM on Softlayer", func() {
+			Expect(roles[3].Name).To(Equal("registry"))
+		})
 	})
 })
