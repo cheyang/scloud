@@ -191,7 +191,7 @@ func (r DeploymentRole) Match(h *host.Host) bool {
 	match := true
 
 	if r.HostnamePrefix != "" {
-		if !strings.HasPrefix(h.GetMachineName(), r.HostnamePrefix) {
+		if !strings.HasPrefix(h.Driver.GetMachineName(), r.HostnamePrefix) {
 			match = false
 		}
 	}

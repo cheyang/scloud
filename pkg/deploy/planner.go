@@ -37,12 +37,12 @@ func NewPlanner(spec *DeploymentSpec, wait *sync.WaitGroup) *Planner {
 	}
 
 	return &Planner{
-		TargetSize:     spec.GetTargetSize(),
-		DeploymentSpec: spec,
-		Sender:         msg.NewQueue(targetSize),
-		Receiver:       nil,
-		wait:           wait,
-		stepSize:       size,
+		//		TargetSize:     spec.GetTargetSize(),
+		DeploymentSpec:      spec,
+		Sender:              msg.NewQueue(spec.GetTargetSize()),
+		ProvisionerObserver: nil,
+		wait:                wait,
+		stepSize:            size,
 	}
 }
 
@@ -63,7 +63,7 @@ func (p *Planner) Run() {
 		return
 	}
 
-	for i := 0; i < p.TargetSize; i++ {
+	for i := 0; i < p.DeploymentSpec.GetTargetSize(); i++ {
 		fmt.Fprintf(os.Stderr, "Begin receiving %d times provision notification", i+1)
 		host, err := p.WaitForHostReady()
 		if err != nil {
@@ -85,7 +85,7 @@ func (p *Planner) Run() {
 
 		if readyToPublish {
 
-			if p.Deployment.Size()-lastPublishSize < cStepSize {
+			if p.Deployment.Size()-lastPublishSize < p.stepSize {
 				gap := p.Deployment.Size() - lastPublishSize
 				fmt.Fprintf(os.Stderr, "Current deploymnet size is %d, the last deployment size %d, the gap between them is %d, while the expected gap is %d\n ", p.Deployment.Size(), lastPublishSize, gap, cStepSize)
 				fmt.Fprintln(os.Stderr, "jump out the publish process. ")
@@ -126,6 +126,8 @@ func (p *Planner) CheckReadyToPublish() bool {
 
 func (p *Planner) PublishDeployment() error {
 	fmt.Fprintf(os.Stdout, "Do publish for %v\n", p.Deployment.Size())
+
+	return nil
 }
 
 // Add the host entry to plan
@@ -133,7 +135,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 	added := false
 
-	fmt.Fprintf(os.Stderr, "Begin to Add host %s to plan ", h.GetMachineName())
+	fmt.Fprintf(os.Stderr, "Begin to Add host %s to plan ", h.Driver.GetMachineName())
 
 	for _, role := range p.DeploymentSpec.Roles {
 		if role.Match(h) {
@@ -157,7 +159,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	}
 
 	if !added {
-		return fmt.Errorf("Failed to add host %s to the deployment plan!", h.GetMachineName())
+		return fmt.Errorf("Failed to add host %s to the deployment plan!", h.Driver.GetMachineName())
 	}
 
 	return nil
