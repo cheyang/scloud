@@ -65,7 +65,7 @@ var _ = Describe("Planner Test", func() {
 			ReuseGroup: reuseGroup,
 		}
 
-		deployment = NewDeployment(spec.GetCountOfRoles())
+		deployment = NewDeployment(spec.CountOfRoles())
 
 		num = 2
 
@@ -107,6 +107,7 @@ var _ = Describe("Planner Test", func() {
 
 			waitgroup.Wait()
 
+			Expect(roles[3].Name).To(Equal("registry"))
 		})
 	})
 })
