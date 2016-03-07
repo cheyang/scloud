@@ -137,7 +137,7 @@ func (p *Planner) CheckReadyToPublish() bool {
 
 	for k, v := range p.DeploymentSpec.GetRoleMaps() {
 
-		if p.Deployment.CaculateHostNumberByName(k) < p.DeploymentSpec.GetDeployableSizeByName() {
+		if p.Deployment.GetHostNumberByName(k) < p.DeploymentSpec.GetDeployableSizeByName(k) {
 			return ready
 		}
 
