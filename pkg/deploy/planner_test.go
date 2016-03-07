@@ -6,6 +6,8 @@ import (
 	//	. "github.com/cheyang/scloud/pkg/deploy"
 	"sync"
 
+	"strconv"
+
 	"github.com/cheyang/scloud/pkg/host"
 
 	. "github.com/onsi/ginkgo"
