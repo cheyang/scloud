@@ -16,9 +16,9 @@ type DeploymentSpec struct {
 }
 
 //Get the count of the roles
-func (d *DeploymentSpec) GetCountOfRoles() {
+func (d *DeploymentSpec) CountOfRoles() int {
 
-	return len(Roles)
+	return len(d.Roles)
 
 }
 
