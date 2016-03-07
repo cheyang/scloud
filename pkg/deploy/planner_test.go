@@ -72,7 +72,7 @@ var _ = Describe("Planner Test", func() {
 
 		deployment = NewDeployment(spec.CountOfRoles())
 
-		num = 2
+		num = spec.GetTargetSize()
 
 		hosts = make([]*host.Host, num)
 

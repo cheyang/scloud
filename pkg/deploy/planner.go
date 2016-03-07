@@ -36,11 +36,14 @@ func NewPlanner(spec *DeploymentSpec, wait *sync.WaitGroup) *Planner {
 		size = defaultStepSize
 	}
 
+	deployment = NewDeployment(spec.CountOfRoles())
+
 	return &Planner{
 		//		TargetSize:     spec.GetTargetSize(),
 		DeploymentSpec:      spec,
 		Sender:              msg.NewQueue(spec.GetTargetSize()),
 		ProvisionerObserver: nil,
+		Deployment:          deployment,
 		wait:                wait,
 		stepSize:            size,
 	}
@@ -158,10 +161,6 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	added := false
 
 	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan ", h.Driver.GetMachineName())
-
-	if p.Deployment.Nodes == nil {
-		p.Deployment = NewDeployment(p.DeploymentSpec.CountOfRoles())
-	}
 
 	for _, role := range p.DeploymentSpec.Roles {
 		if role.Match(h) {
