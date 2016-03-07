@@ -181,6 +181,8 @@ func (p *Planner) WaitForHostReady() (*host.Host, error) {
 
 	if h, ok := entry.(*host.Host); ok {
 		return h, nil
+	} else {
+		return nil, fmt.Errorf("return unknown object %s", entry)
 	}
 
 }
