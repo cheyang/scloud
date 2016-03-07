@@ -4,7 +4,7 @@ package msg
 import (
 	"fmt"
 	"os"
-	"sync"
+	//	"sync"
 )
 
 type Queue struct {
