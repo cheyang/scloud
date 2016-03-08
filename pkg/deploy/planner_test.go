@@ -42,6 +42,7 @@ var _ = Describe("Planner Test", func() {
 			},
 			&DeploymentRole{
 				Name:   "kube-nodes",
+				MinNum: 1,
 				MaxNum: 5,
 			},
 			&DeploymentRole{
