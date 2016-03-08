@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	defaultStepSize = 1
+	defaultStepSize = 3
 	cStepSize       = "STEP_SIZE"
 )
 
