@@ -44,6 +44,6 @@ func (m *Manager) isWorking() bool {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
-	return isWorking
+	return working
 
 }
