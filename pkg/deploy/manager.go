@@ -37,9 +37,10 @@ func (m *Manager) getDeployment() Deployment {
 
 	m.ToDeploy = Deployment{}
 
+	return deployment
 }
 
-func (m *Manager) IsWorking() bool {
+func (m *Manager) isWorking() bool {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
