@@ -75,19 +75,20 @@ func (d *DeploymentSpec) FindRoleByName(name string) *DeploymentRole {
 func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []string) {
 
 	if d.ReuseGroup == nil {
-		return members
+		d.InitRoleMaps()
+		d.ReuseGroup.InitGroupMaps()
 	}
 
 	// Need init groupMap
-	if len(d.ReuseGroup.GroupMap) == 0 {
-		if len(d.ReuseGroup.Group) == 0 {
-			return members
-		}
+	//	if len(d.ReuseGroup.GroupMap) == 0 {
+	//		if len(d.ReuseGroup.Group) == 0 {
+	//			return members
+	//		}
 
-		d.InitRoleMaps()
-		d.ReuseGroup.InitGroupMaps()
+	//		d.InitRoleMaps()
+	//		d.ReuseGroup.InitGroupMaps()
 
-	}
+	//	}
 
 	return d.ReuseGroup.GroupMap[name]
 }
