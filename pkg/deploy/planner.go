@@ -82,7 +82,7 @@ func (p *Planner) Run() {
 		err = p.AddHostToPlan(host)
 
 		if err != nil {
-			fmt.Fprintf(os.Stdout, err)
+			fmt.Println("Add host to plan error:", err)
 		}
 
 		fmt.Fprintf(os.Stderr, "Begin Notifying the deploymnet manager with new deployment design %v\n", p.Deployment)
