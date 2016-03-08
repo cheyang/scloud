@@ -3,6 +3,9 @@ package deploy
 
 import (
 	"sync"
+
+	"github.com/cheyang/scloud/pkg/deployers"
+	"github.com/cheyang/scloud/pkg/msg"
 )
 
 type Manager struct {
