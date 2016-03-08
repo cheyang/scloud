@@ -174,7 +174,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan ", h.Driver.GetMachineName())
 
 	for _, role := range p.DeploymentSpec.Roles {
-		if role.Match(h) && role.MaxNum < p.Deployment.GetHostNumberByName() {
+		if role.Match(h) && role.MaxNum < p.Deployment.GetHostNumberByName(role.Name) {
 
 			p.Deployment.Add(role.Name, h)
 
