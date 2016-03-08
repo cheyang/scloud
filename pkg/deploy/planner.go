@@ -135,6 +135,7 @@ func (p *Planner) CheckReadyToPublish() bool {
 
 	// If least deployment size can't reach, return false
 	if p.Deployment.Size() < p.DeploymentSpec.GetLeastDeployableSize() {
+		fmt.Fprintf(os.Stderr, "Deployment.Size() is %d, while DeploymentSpec.GetLeastDeployableSize is %d", p.Deployment.Size(), p.DeploymentSpec.GetLeastDeployableSize())
 		ready = false
 		return ready
 	}
@@ -148,6 +149,8 @@ func (p *Planner) CheckReadyToPublish() bool {
 	for k, _ := range p.DeploymentSpec.GetRoleMaps() {
 
 		if p.Deployment.GetHostNumberByName(k) < p.DeploymentSpec.GetDeployableSizeByName(k) {
+			fmt.Fprintf(os.Stderr, "%s 's Deployment.GetHostNumberByName(k) is %d, while DeploymentSpec.GetDeployableSizeByName(k) is %d", k, p.Deployment.GetHostNumberByName(k), p.DeploymentSpec.GetDeployableSizeByName(k))
+
 			ready = false
 			return ready
 		}
