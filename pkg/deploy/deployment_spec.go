@@ -2,6 +2,8 @@
 package deploy
 
 import (
+	"fmt"
+	"os"
 	"strings"
 
 	"github.com/cheyang/scloud/pkg/host"
@@ -105,13 +107,15 @@ type GroupMember struct {
 // Init the group maps
 func (r ReuseGroup) InitGroupMaps() {
 
-	if r.GroupMap != nil {
+	if r.GroupMap != nil && len(r.GroupMap) > 0 {
+		fmt.Fprintf(os.Stderr, "No need to init groupMap\n")
 		return
 	}
 
 	r.GroupMap = make(map[string][]string)
 
 	for _, g := range r.Group {
+		fmt.Fprintf(os.Stderr, "Add groupName %s with Members %s", g.GroupName, g.Members)
 
 		r.GroupMap[g.GroupName] = g.Members
 
