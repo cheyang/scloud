@@ -16,7 +16,7 @@ type Manager struct {
 
 	latestDeploy Deployment
 
-	isWorking bool
+	working bool
 
 	FinishReport chan interface{}
 
