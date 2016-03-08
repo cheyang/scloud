@@ -193,8 +193,11 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 				fmt.Fprintf(os.Stderr, "Found members %s of group %s\n", role.groupName, memberNames)
 
 				for _, gMember := range memberNames {
-					fmt.Fprintf(os.Stderr, "Added host %v to role %v\n", h.Driver.GetMachineName(), gMember)
-					p.Deployment.Add(gMember, h)
+
+					if gMember != role.Name && p.Deployment.GetHostNumberByName(gMember) < p.DeploymentSpec.FindRoleByName(gMember).MaxNum {
+						fmt.Fprintf(os.Stderr, "Added host %v to role %v\n", h.Driver.GetMachineName(), gMember)
+						p.Deployment.Add(gMember, h)
+					}
 				}
 
 			}
