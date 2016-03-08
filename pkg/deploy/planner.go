@@ -131,10 +131,11 @@ func (p *Planner) Run() {
 
 func (p *Planner) CheckReadyToPublish() bool {
 
-	ready := false
+	ready := true
 
 	// If least deployment size can't reach, return false
 	if p.Deployment.Size() < p.DeploymentSpec.GetLeastDeployableSize() {
+		ready = false
 		return ready
 	}
 
@@ -147,6 +148,7 @@ func (p *Planner) CheckReadyToPublish() bool {
 	for k, _ := range p.DeploymentSpec.GetRoleMaps() {
 
 		if p.Deployment.GetHostNumberByName(k) < p.DeploymentSpec.GetDeployableSizeByName(k) {
+			ready = false
 			return ready
 		}
 
