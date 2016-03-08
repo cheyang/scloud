@@ -112,6 +112,8 @@ func (r ReuseGroup) InitGroupMaps() {
 		return
 	}
 
+	fmt.Fprintf(os.Stderr, "Build groupMap\n")
+
 	r.GroupMap = make(map[string][]string)
 
 	for _, g := range r.Group {
