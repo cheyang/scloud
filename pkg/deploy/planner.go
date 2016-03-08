@@ -94,7 +94,7 @@ func (p *Planner) Run() {
 
 		if readyToPublish {
 
-			if p.Deployment.Size()-lastPublishSize < p.stepSize {
+			if p.Deployment.Size()-lastPublishSize < p.stepSize || i+1 == p.DeploymentSpec.GetTargetSize() {
 				gap := p.Deployment.Size() - lastPublishSize
 				fmt.Fprintf(os.Stderr, "Current deploymnet size is %d, the last deployment size %d, the gap between them is %d, while the expected gap is %d\n ", p.Deployment.Size(), lastPublishSize, gap, cStepSize)
 				fmt.Fprintln(os.Stderr, "jump out the publish process. ")
@@ -165,7 +165,7 @@ func (p *Planner) CheckReadyToPublish() bool {
 }
 
 func (p *Planner) PublishDeployment() error {
-	fmt.Fprintf(os.Stdout, "Do publish for %v\n", p.Deployment.Size())
+	fmt.Fprintf(os.Stderr, "Do publish for %v\n", p.Deployment.Size())
 
 	return nil
 }

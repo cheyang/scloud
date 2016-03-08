@@ -30,6 +30,11 @@ func (d Deployment) FindHostsByName(name string) []*host.Host {
 
 }
 
+//Determine if the deployment is empty
+func (d Deployment) IsEmpty() bool {
+	return d.Nodes == nil
+}
+
 // caculate the number of hosts by name
 func (d *Deployment) GetHostNumberByName(name string) int {
 
