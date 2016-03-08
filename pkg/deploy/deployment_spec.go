@@ -74,10 +74,8 @@ func (d *DeploymentSpec) FindRoleByName(name string) *DeploymentRole {
 // Find slice of group by name
 func (d *DeploymentSpec) FindReuseGroupByName(name string) (members []string) {
 
-	if d.ReuseGroup == nil {
-		d.InitRoleMaps()
-		d.ReuseGroup.InitGroupMaps()
-	}
+	d.InitRoleMaps()
+	d.ReuseGroup.InitGroupMaps()
 
 	// Need init groupMap
 	//	if len(d.ReuseGroup.GroupMap) == 0 {

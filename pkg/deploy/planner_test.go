@@ -74,6 +74,10 @@ var _ = Describe("Planner Test", func() {
 
 		num = spec.GetTargetSize()
 
+		spec.InitGroupMaps()
+
+		fmt.Println("spec.groupMap:", spec.ReuseGroup)
+
 		fmt.Println("The target size num: ", num)
 
 		hosts = make([]*host.Host, num)
@@ -104,6 +108,8 @@ var _ = Describe("Planner Test", func() {
 			defer queue.Close()
 
 			planner = NewPlanner(spec, planReport)
+
+			fmt.Println("spec.groupMap:", spec.ReuseGroup)
 
 			planner.RegisterOberserver(queue)
 
