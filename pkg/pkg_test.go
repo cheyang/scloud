@@ -95,6 +95,8 @@ var _ = Describe("pkg", func() {
 
 			fmt.Println("Create...", err)
 
+			Expect(err).To(BeNil())
+
 			if err != nil {
 				fmt.Println("Create Error", err)
 			}
