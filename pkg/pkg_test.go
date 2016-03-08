@@ -59,7 +59,7 @@ var _ = Describe("pkg", func() {
 					MaxSpeed: 1000,
 				}},
 				SshKeys:                        []datatypes.SshKey{datatypes.SshKey{Id: 3922}},
-				HourlyBillingFlag:              true,
+				HourlyBillingFlag:              false,
 				LocalDiskFlag:                  true,
 				BlockDeviceTemplateGroup:       &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
 				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
