@@ -67,7 +67,7 @@ var _ = Describe("pkg", func() {
 				LocalDiskFlag:            true,
 				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
 				//				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
-				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
+				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 28223}},
 				PrivateNetworkOnlyFlag:         true,
 			}
 
