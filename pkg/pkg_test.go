@@ -23,12 +23,16 @@ var _ = Describe("pkg", func() {
 		sl_driver drivers.Driver
 		store     persist.Store
 		err       error
+		name      string
 	)
 
 	BeforeEach(func() {
-		store = lib.GetDefaultStore("apmucd-001")
 
-		hostname := "apmucd-001"
+		name = "apmucd-002"
+
+		store = lib.GetDefaultStore(name)
+
+		hostname := name
 
 		sl_driver, err = sl_cloud.NewDriver(hostname, store.MyDir())
 
@@ -58,10 +62,11 @@ var _ = Describe("pkg", func() {
 				NetworkComponents: []datatypes.NetworkComponents{datatypes.NetworkComponents{
 					MaxSpeed: 1000,
 				}},
-				SshKeys:                        []datatypes.SshKey{datatypes.SshKey{Id: 3922}},
-				HourlyBillingFlag:              false,
-				LocalDiskFlag:                  true,
-				BlockDeviceTemplateGroup:       &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
+				SshKeys:                  []datatypes.SshKey{datatypes.SshKey{Id: 3922}},
+				HourlyBillingFlag:        true,
+				LocalDiskFlag:            true,
+				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
+				//				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
 				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
 				PrivateNetworkOnlyFlag:         true,
 			}
@@ -74,7 +79,7 @@ var _ = Describe("pkg", func() {
 
 			Expect(ok).To(BeTrue())
 
-			Expect(real_driver.MachineName).To(Equal("apmucd-001"))
+			Expect(real_driver.MachineName).To(Equal(name))
 
 			fmt.Println(real_driver.VirtualGuestTemplate)
 
@@ -84,7 +89,7 @@ var _ = Describe("pkg", func() {
 
 			err = sl_driver.Create()
 
-			real_driver.Id = 16407243
+			//			real_driver.Id = 16407243
 
 			fmt.Println("Create...", err)
 
