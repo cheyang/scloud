@@ -64,22 +64,26 @@ func (p *Planner) Run() {
 	lastPublishSize := 0
 
 	if p.ProvisionerObserver == nil {
-		fmt.Fprintf(os.Stderr, "p.ProvisionerObserver is not set, exit!")
+		fmt.Fprintf(os.Stderr, "p.ProvisionerObserver is not set, exit!\n")
 		return
 	}
 
 	for i := 0; i < p.DeploymentSpec.GetTargetSize(); i++ {
-		fmt.Fprintf(os.Stderr, "Begin receiving %d times provision notification", i+1)
+		fmt.Fprintf(os.Stderr, "Begin receiving %d times provision notification\n", i+1)
 		host, err := p.WaitForHostReady()
 		if err != nil {
 			fmt.Fprintf(os.Stdout, "Finish receiving %d times provision: %s\n", i+1, err)
 			continue
 		}
 
-		fmt.Fprintf(os.Stderr, "Finish receiving %d times provision notification entry %v", i+1, host)
+		fmt.Fprintf(os.Stderr, "Finish receiving %d times provision notification entry %v\n", i+1, host)
 
 		//		fmt.Fprintf(os.Stderr, "Add receiving %d times provision notification entry %v",  entry)
-		p.AddHostToPlan(host)
+		err = p.AddHostToPlan(host)
+
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error in adding host to deployment design %v\n", p.Deployment)
+		}
 
 		fmt.Fprintf(os.Stderr, "Begin Notifying the deploymnet manager with new deployment design %v\n", p.Deployment)
 
@@ -171,10 +175,10 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 	added := false
 
-	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan ", h.Driver.GetMachineName())
+	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan \n", h.Driver.GetMachineName())
 
 	for _, role := range p.DeploymentSpec.Roles {
-		if role.Match(h) && role.MaxNum < p.Deployment.GetHostNumberByName(role.Name) {
+		if role.Match(h) && role.MaxNum > p.Deployment.GetHostNumberByName(role.Name) {
 
 			p.Deployment.Add(role.Name, h)
 
@@ -195,7 +199,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	}
 
 	if !added {
-		return fmt.Errorf("Failed to add host %s to the deployment plan!", h.Driver.GetMachineName())
+		return fmt.Errorf("Failed to add host %s to the deployment plan!\n", h.Driver.GetMachineName())
 	}
 
 	return nil
