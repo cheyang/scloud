@@ -2,11 +2,9 @@
 package deploy
 
 import (
-	//	"errors"
 	"fmt"
 	"os"
 	"strconv"
-	//	"sync"
 
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/msg"
