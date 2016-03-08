@@ -28,7 +28,7 @@ var _ = Describe("pkg", func() {
 
 	BeforeEach(func() {
 
-		name = "apmucd-002"
+		name = "apmwdc-001"
 
 		store = lib.GetDefaultStore(name)
 
@@ -57,7 +57,8 @@ var _ = Describe("pkg", func() {
 				StartCpus: 2,
 				MaxMemory: 2048,
 				Datacenter: datatypes.Datacenter{
-					Name: "dal05",
+					//					Name: "dal05",
+					Name: "wdc04",
 				},
 				NetworkComponents: []datatypes.NetworkComponents{datatypes.NetworkComponents{
 					MaxSpeed: 1000,
@@ -67,7 +68,7 @@ var _ = Describe("pkg", func() {
 				LocalDiskFlag:            true,
 				BlockDeviceTemplateGroup: &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
 				//				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
-				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 28223}},
+				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 1191337}},
 				PrivateNetworkOnlyFlag:         true,
 			}
 
