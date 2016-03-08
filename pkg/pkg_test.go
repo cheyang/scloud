@@ -26,9 +26,9 @@ var _ = Describe("pkg", func() {
 	)
 
 	BeforeEach(func() {
-		store = lib.GetDefaultStore("mytest")
+		store = lib.GetDefaultStore("apmucd-001")
 
-		hostname := "mytesthost"
+		hostname := "apmucd-001"
 
 		sl_driver, err = sl_cloud.NewDriver(hostname, store.MyDir())
 
@@ -63,7 +63,7 @@ var _ = Describe("pkg", func() {
 				LocalDiskFlag:                  true,
 				BlockDeviceTemplateGroup:       &datatypes.BlockDeviceTemplateGroup{GlobalIdentifier: "00b8c96d-287a-4dba-b253-dab68ffdf56a"},
 				PrimaryBackendNetworkComponent: &datatypes.PrimaryBackendNetworkComponent{NetworkVlan: datatypes.NetworkVlan{Id: 282238}},
-				PrivateNetworkOnlyFlag: true
+				PrivateNetworkOnlyFlag:         true,
 			}
 
 			fmt.Println(sl_driver)
@@ -82,7 +82,7 @@ var _ = Describe("pkg", func() {
 
 			fmt.Println("PreCheck...", err)
 
-			//			err = sl_driver.Create()
+			err = sl_driver.Create()
 
 			real_driver.Id = 16407243
 
