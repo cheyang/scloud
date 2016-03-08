@@ -182,11 +182,18 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 
 			p.Deployment.Add(role.Name, h)
 
+			fmt.Fprintf(os.Stderr, "Added host %v to role %v\n", h.Driver.GetMachineName(), role.Name)
+
 			// If groupName is empty, so no share with other role
 			if role.groupName != "" {
+				fmt.Fprintf(os.Stderr, "Found group name %v of role %v\n", role.groupName, role.Name)
+
 				memberNames := p.DeploymentSpec.FindReuseGroupByName(role.groupName)
 
+				fmt.Fprintf(os.Stderr, "Found members %s of group %s\n", role.groupName, memberNames)
+
 				for _, gMember := range memberNames {
+					fmt.Fprintf(os.Stderr, "Added host %v to role %v\n", h.Driver.GetMachineName(), gMember)
 					p.Deployment.Add(gMember, h)
 				}
 
