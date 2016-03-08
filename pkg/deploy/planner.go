@@ -2,7 +2,7 @@
 package deploy
 
 import (
-	"errors"
+	//	"errors"
 	"fmt"
 	"os"
 	"strconv"

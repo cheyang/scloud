@@ -5,7 +5,7 @@ import (
 	"fmt"
 	//	. "github.com/cheyang/scloud/pkg/deploy"
 	"os"
-	"sync"
+	//	"sync"
 
 	"strconv"
 
@@ -118,7 +118,7 @@ var _ = Describe("Planner Test", func() {
 
 			result := <-planReport
 
-			fmt.Fprintln("result is", result)
+			fmt.Println("result is", result)
 
 			Expect(roles[3].Name).To(Equal("registry"))
 		})
