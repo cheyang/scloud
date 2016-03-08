@@ -62,8 +62,8 @@ var _ = Describe("Planner Test", func() {
 					GroupName: "k8s1",
 					Members:   []string{"kube-master", "etcd"},
 				},
-				GroupMap: make(map[string][]string),
 			},
+			GroupMap: make(map[string][]string),
 		}
 
 		spec = &DeploymentSpec{
