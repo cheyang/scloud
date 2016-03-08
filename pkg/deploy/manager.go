@@ -4,7 +4,6 @@ package deploy
 import (
 	"sync"
 
-	"github.com/cheyang/scloud/pkg/deployers"
 	"github.com/cheyang/scloud/pkg/msg"
 )
 
@@ -21,7 +20,7 @@ type Manager struct {
 
 	FinishReport chan interface{}
 
-	worker deployers.Deployer
+	worker Deployer
 }
 
 func (m *Manager) Deploy() {
