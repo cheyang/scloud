@@ -93,15 +93,17 @@ var _ = Describe("Planner Test", func() {
 			//			Expect(spec.GetTargetSize()).To(BeEquivalentTo(8))
 			//			Expect(spec.GetLeastDeployableSize()).To(BeEquivalentTo(8))
 
-			var waitgroup sync.WaitGroup
+			//			var waitgroup sync.WaitGroup
 
-			waitgroup.Add(1)
+			//			waitgroup.Add(1)
+
+			planReport := make(chan interface{}, 1)
 
 			queue := msg.NewQueue(num)
 
 			defer queue.Close()
 
-			planner = NewPlanner(spec, &waitgroup)
+			planner = NewPlanner(spec, planReport)
 
 			planner.RegisterOberserver(queue)
 
@@ -114,7 +116,9 @@ var _ = Describe("Planner Test", func() {
 				}(i)
 			}
 
-			waitgroup.Wait()
+			result := <-planReport
+
+			fmt.Fprintln("result is", result)
 
 			Expect(roles[3].Name).To(Equal("registry"))
 		})

@@ -2,10 +2,11 @@
 package deploy
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
-	"sync"
+	//	"sync"
 
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/msg"
@@ -23,12 +24,12 @@ type Planner struct {
 	msg.Sender
 	Deployment // Operate on map, no need pointer
 	*DeploymentSpec
-	wait         *sync.WaitGroup
+	//	wait         *sync.WaitGroup
 	stepSize     int
 	FinishReport chan interface{}
 }
 
-func NewPlanner(spec *DeploymentSpec, wait *sync.WaitGroup) *Planner {
+func NewPlanner(spec *DeploymentSpec, chs chan interface{}) *Planner {
 
 	size, err := strconv.Atoi(os.Getenv(cStepSize))
 
@@ -38,14 +39,17 @@ func NewPlanner(spec *DeploymentSpec, wait *sync.WaitGroup) *Planner {
 
 	deployment := NewDeployment(spec.CountOfRoles())
 
+	//	chs := make(chan interface{}, capacity)
+
 	return &Planner{
 		//		TargetSize:     spec.GetTargetSize(),
 		DeploymentSpec:      spec,
 		Sender:              msg.NewQueue(spec.GetTargetSize()),
 		ProvisionerObserver: nil,
 		Deployment:          deployment,
-		wait:                wait,
-		stepSize:            size,
+		//		wait:                wait,
+		FinishReport: chs,
+		stepSize:     size,
 	}
 }
 
@@ -111,10 +115,14 @@ func (p *Planner) Run() {
 		fmt.Fprintf(os.Stderr, "End Notifying the deploymnet manager with new deployment design %v\n", p.Deployment)
 	}
 
-	p.wait.Done()
-
 	if !readyToPublish {
-		panic("Failed to create deployment plan due to not enough machines are created.")
+		//		panic("Failed to create deployment plan due to not enough machines are created.")
+
+		p.FinishReport <- fmt.Errorf("Failed to create deployment plan due to not enough machines are created.")
+	} else if p.Deployment.Size() < p.DeploymentSpec.GetTargetSize() {
+		p.FinishReport <- fmt.Errorf("The least size of the deployment plan can be created, but not all of them are created.")
+	} else {
+		p.FinishReport <- "Deployment plan done successfully."
 	}
 
 }
