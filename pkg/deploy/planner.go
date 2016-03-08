@@ -82,7 +82,7 @@ func (p *Planner) Run() {
 		err = p.AddHostToPlan(host)
 
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error in adding host to deployment design %v\n", p.Deployment)
+			fmt.Fprintf(os.Stdout, err)
 		}
 
 		fmt.Fprintf(os.Stderr, "Begin Notifying the deploymnet manager with new deployment design %v\n", p.Deployment)
@@ -178,7 +178,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	fmt.Fprintf(os.Stderr, "Begin to Add host %v to plan \n", h.Driver.GetMachineName())
 
 	for _, role := range p.DeploymentSpec.Roles {
-		if role.Match(h) && role.MaxNum > p.Deployment.GetHostNumberByName(role.Name) {
+		if role.Match(h) && role.MaxNum < p.Deployment.GetHostNumberByName(role.Name) {
 
 			p.Deployment.Add(role.Name, h)
 
@@ -199,7 +199,7 @@ func (p *Planner) AddHostToPlan(h *host.Host) error {
 	}
 
 	if !added {
-		return fmt.Errorf("Failed to add host %s to the deployment plan!\n", h.Driver.GetMachineName())
+		return fmt.Errorf("Failed to add host %s to the deployment plan %s!", h.Driver.GetMachineName(), p.Deployment)
 	}
 
 	return nil
