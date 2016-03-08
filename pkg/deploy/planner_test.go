@@ -46,6 +46,7 @@ var _ = Describe("Planner Test", func() {
 			},
 			&DeploymentRole{
 				Name:   "etcd",
+				MinNum: 1,
 				MaxNum: 3,
 				//				MinNum:    1,
 				groupName: "k8s1",
