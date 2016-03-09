@@ -22,7 +22,7 @@ func (d Deployment) Equals(t Deployment) bool {
 	equal := true
 
 	if len(d.Nodes) != len(t.Nodes) {
-		fmt.Fprintf(os.Stdout, "len(d.Nodes) %d != len(t.Nodes) %d\n", len(d.Nodes), len(t.Nodes))
+		fmt.Fprintf(os.Stderr, "len(d.Nodes) %d != len(t.Nodes) %d\n", len(d.Nodes), len(t.Nodes))
 		return false
 	}
 
@@ -30,7 +30,7 @@ func (d Deployment) Equals(t Deployment) bool {
 
 		if tk, ok := t.Nodes[k]; ok {
 			if len(v) != len(tk) {
-				fmt.Fprintf(os.Stdout, "len(v) %v %d != len(tk) %v %d\n", v, len(v), tk, len(tk))
+				fmt.Fprintf(os.Stderr, "len(v) %v %d != len(tk) %v %d\n", v, len(v), tk, len(tk))
 				return false
 			}
 
@@ -45,13 +45,13 @@ func (d Deployment) Equals(t Deployment) bool {
 				has := utils.Contains(interfaceSlice, value)
 
 				if !has {
-					fmt.Fprintf(os.Stdout, " utils.Contains({tk} %v, value)  %p\n", tk, value)
+					fmt.Fprintf(os.Stderr, " utils.Contains({tk} %v, value)  %p\n", tk, value)
 					return false
 				}
 			}
 
 		} else {
-			fmt.Fprintf(os.Stdout, "  t.Nodes[k] doesn't exist:%v, %v \n", t.Nodes, k)
+			fmt.Fprintf(os.Stderr, "  t.Nodes[k] doesn't exist:%v, %v \n", t.Nodes, k)
 
 			return false
 		}
