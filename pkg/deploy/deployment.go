@@ -2,6 +2,8 @@
 package deploy
 
 import (
+	"fmt"
+
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/utils"
 )
@@ -19,6 +21,7 @@ func (d Deployment) Equals(t Deployment) bool {
 	equal := true
 
 	if len(d.Nodes) != len(t.Nodes) {
+		fmt.Fprintf(os.StdOut, "len(d.Nodes) %d != len(t.Nodes) %d\n", len(d.Nodes), len(t.Nodes))
 		return false
 	}
 
@@ -26,6 +29,7 @@ func (d Deployment) Equals(t Deployment) bool {
 
 		if tk, ok := t.Nodes[k]; ok {
 			if len(v) != len(tk) {
+				fmt.Fprintf(os.StdOut, "len(v) %v %d != len(tk) %v %d\n", v, len(v), tk, len(tk))
 				return false
 			}
 
@@ -34,11 +38,14 @@ func (d Deployment) Equals(t Deployment) bool {
 				has := utils.Contains([]interface{}{tk}, value)
 
 				if !has {
+					fmt.Fprintf(os.StdOut, " utils.Contains([]interface{}{tk}, value) %v %v\n", tk, value)
 					return false
 				}
 			}
 
 		} else {
+			fmt.Fprintf(os.StdOut, "  t.Nodes[k] doesn't exist:%v, %v \n", t.Nodes, k)
+
 			return false
 		}
 
