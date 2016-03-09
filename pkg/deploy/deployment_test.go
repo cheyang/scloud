@@ -19,8 +19,8 @@ func GenerateDeployment(maps map[string]int, h []*host.Host) Deployment {
 
 	point := 0
 	for k, v := range maps {
-		d.Nodes[k] = h[point:v]
-		point = v
+		d.Nodes[k] = h[point : v+point]
+		point = v + point
 	}
 
 	return d
