@@ -39,7 +39,7 @@ func (d Deployment) Equals(t Deployment) bool {
 				has := utils.Contains([]interface{}{tk}, value)
 
 				if !has {
-					fmt.Fprintf(os.Stdout, " utils.Contains([]interface{}{tk}, value) %v %v\n", tk, value)
+					fmt.Fprintf(os.Stdout, " utils.Contains([]interface{}{tk} %v, value)  %p\n", tk, value)
 					return false
 				}
 			}
