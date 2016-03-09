@@ -40,7 +40,7 @@ func ReverseDeployment(d Deployment) Deployment {
 
 		slice := make([]*host.Host, 0, length)
 
-		for i := length - 1; i > 0; i-- {
+		for i := length - 1; i >= 0; i-- {
 			slice = append(slice, v[i])
 		}
 
