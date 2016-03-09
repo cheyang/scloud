@@ -121,7 +121,7 @@ var _ = Describe("Deployment", func() {
 
 			fmt.Printf("deployment2 %v", deployment2)
 
-			Expect(deployment1.Equals(deployment2)).To(BeTrue())
+			Expect(deployment1.Equals(deployment2)).To(BeFalse())
 		})
 	})
 })
