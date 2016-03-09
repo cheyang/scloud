@@ -24,7 +24,7 @@ func (d Deployment) Equals(t Deployment) bool {
 
 	for k, v := range d.Nodes {
 
-		if tk, ok := t[k]; ok {
+		if tk, ok := t.Nodes[k]; ok {
 			if len(v) != len(tk) {
 				return false
 			}

@@ -2,7 +2,7 @@ package deploy
 
 import (
 	//	. "github.com/cheyang/scloud/pkg/deploy"
-	//	"github.com/cheyang/scloud/pkg/host"
+	"github.com/cheyang/scloud/pkg/host"
 
 	"fmt"
 
@@ -26,7 +26,7 @@ func ReverseDeployment(d Deployment) Deployment {
 
 	target := Deployment{Nodes: make(map[string][]*host.Host)}
 
-	for k, v := range d {
+	for k, v := range d.Nodes {
 		target.Nodes[k] = v
 	}
 

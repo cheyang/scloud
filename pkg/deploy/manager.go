@@ -67,7 +67,7 @@ func (m *Manager) createWorkerDir() string {
 	err := os.MkdirAll(workingDir, 0744)
 
 	if err != nil {
-		fmt.Fprintf(os.stdErr, "create work dir error: %v", err)
+		fmt.Fprintf(os.Stderr, "create work dir error: %v", err)
 	}
 
 	return workingDir
