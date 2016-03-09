@@ -68,7 +68,7 @@ var _ = Describe("Deployment", func() {
 
 	Context("#Compare the data ", func() {
 		It("order is different", func() {
-			num := 10
+			num = 10
 
 			hosts1 = make([]*host.Host, num)
 
