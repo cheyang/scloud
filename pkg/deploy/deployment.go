@@ -3,6 +3,7 @@ package deploy
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/utils"
