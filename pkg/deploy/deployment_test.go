@@ -77,7 +77,7 @@ var _ = Describe("Deployment", func() {
 					Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i),
 						MachineName: fmt.Sprintf("kubemaster-", strconv.Itoa(i))},
 				}
-				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", hosts[i].Driver.GetMachineName())
+				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", hosts1[i].Driver.GetMachineName())
 			}
 
 			map1 := map[string]int{"kube-master": 1, "kube-node": 8, "etcd": 1}
