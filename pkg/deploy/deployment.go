@@ -36,10 +36,16 @@ func (d Deployment) Equals(t Deployment) bool {
 
 			for _, value := range v {
 
-				has := utils.Contains([]interface{}{tk}, value)
+				interfaceSlice := make([]interface{}, len(tk))
+
+				for i, d := range tk {
+					interfaceSlice[i] = d
+				}
+
+				has := utils.Contains(interfaceSlice, value)
 
 				if !has {
-					fmt.Fprintf(os.Stdout, " utils.Contains([]interface{}{tk} %v, value)  %p\n", tk, value)
+					fmt.Fprintf(os.Stdout, " utils.Contains({tk} %v, value)  %p\n", tk, value)
 					return false
 				}
 			}
