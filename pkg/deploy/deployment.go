@@ -31,7 +31,7 @@ func (d Deployment) Equals(t Deployment) bool {
 
 			for _, value := range v {
 
-				has := utils.Contains(tk, value)
+				has := utils.Contains([]interface{}{tk}, value)
 
 				if !has {
 					return false
