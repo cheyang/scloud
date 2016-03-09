@@ -2,7 +2,9 @@
 package deploy
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 	"sync"
 	"time"
 
@@ -29,13 +31,13 @@ func (m *Manager) Deploy() {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
-	current_deployment := setDeployment()
+	current_deployment := m.setDeployment()
 
 	if current_deployment.IsEmpty() {
 		return
 	}
 
-	worker.Deploy(current_deployment, m.createWorkerDir())
+	m.worker.Deploy(current_deployment, m.createWorkerDir())
 
 }
 
@@ -65,7 +67,7 @@ func (m *Manager) createWorkerDir() string {
 	err := os.MkdirAll(workingDir, 0744)
 
 	if err != nil {
-		return err
+		fmt.Fprintf(os.stdErr, "create work dir error: %v", err)
 	}
 
 	return workingDir
