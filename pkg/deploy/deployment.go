@@ -3,6 +3,7 @@ package deploy
 
 import (
 	"github.com/cheyang/scloud/pkg/host"
+	"github.com/cheyang/scloud/pkg/utils"
 )
 
 type Deployment struct {
@@ -11,6 +12,39 @@ type Deployment struct {
 
 func NewDeployment(capacity int) Deployment {
 	return Deployment{Nodes: make(map[string][]*host.Host, capacity)}
+}
+
+//
+func (d Deployment) Equals(t Deployment) bool {
+	equal := true
+
+	if len(d.Nodes) != len(t.Nodes) {
+		return false
+	}
+
+	for k, v := range d {
+
+		if tk, ok := t[k]; ok {
+			if len(v) != len(tk) {
+				return false
+			}
+
+			for _, value := range v {
+
+				has := utils.Contains(tk, value)
+
+				if !has {
+					return false
+				}
+			}
+
+		} else {
+			return false
+		}
+
+	}
+
+	return equal
 }
 
 func (d Deployment) Add(name string, h *host.Host) {

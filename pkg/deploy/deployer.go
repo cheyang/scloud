@@ -8,5 +8,5 @@ type Deployer interface {
 	UnSupportedMsg() string
 
 	// do the deployment work
-	Deploy(d Deployment) error
+	Deploy(d Deployment, workingDir string) error
 }

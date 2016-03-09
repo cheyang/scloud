@@ -2,7 +2,9 @@
 package deploy
 
 import (
+	"os"
 	"sync"
+	"time"
 
 	"github.com/cheyang/scloud/pkg/msg"
 )
@@ -16,34 +18,55 @@ type Manager struct {
 
 	latestDeploy Deployment
 
-	working bool
-
 	FinishReport chan interface{}
 
 	worker Deployer
+
+	Workspace string
 }
 
 func (m *Manager) Deploy() {
-	if !m.isWorking() {
-		return
-	}
-}
-
-func (m *Manager) getDeployment() Deployment {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
+	current_deployment := setDeployment()
+
+	if current_deployment.IsEmpty() {
+		return
+	}
+
+	worker.Deploy(current_deployment, m.createWorkerDir())
+
+}
+
+func (m *Manager) setDeployment() Deployment {
+
 	deployment := m.ToDeploy
+
+	m.latestDeploy = deployment
 
 	m.ToDeploy = Deployment{}
 
 	return deployment
 }
 
-func (m *Manager) isWorking() bool {
-	m.lock.Lock()
-	defer m.lock.Unlock()
+func (m *Manager) createWorkerDir() string {
 
-	return m.working
+	currentTime := time.Now().Unix()
 
+	tm := time.Unix(currentTime, 0)
+
+	timestamp := tm.Format("20060102150405")
+
+	baseName := fmt.Sprintf("scloud_%s", timestamp)
+
+	workingDir := filepath.Join(m.Workspace, baseName)
+
+	err := os.MkdirAll(workingDir, 0744)
+
+	if err != nil {
+		return err
+	}
+
+	return workingDir
 }
