@@ -91,5 +91,37 @@ var _ = Describe("Deployment", func() {
 
 			Expect(deployment1.Equals(deployment2)).To(BeTrue())
 		})
+
+		It("number is different", func() {
+			num = 10
+
+			hosts1 = make([]*host.Host, num)
+
+			for i := 0; i < num; i++ {
+				hosts1[i] = &host.Host{Name: strconv.Itoa(i),
+					Driver: &drivers.BaseDriver{IPAddress: strconv.Itoa(i),
+						MachineName: fmt.Sprintf("kubemaster-", strconv.Itoa(i))},
+				}
+				fmt.Fprintf(os.Stdout, "exec method GetMachineName for %s\n", hosts1[i].Driver.GetMachineName())
+			}
+
+			map1 := map[string]int{"kube-master": 1, "kube-node": 8, "etcd": 1}
+
+			deployment1 = GenerateDeployment(map1, hosts1)
+
+			deployment2 = ReverseDeployment(deployment1)
+
+			fmt.Printf("deployment1 %v", deployment1)
+
+			temp := make([]*host.Host, 1)
+
+			temp[0] = &host.Host{}
+
+			deployment2.Nodes["etcd"] = temp
+
+			fmt.Printf("deployment2 %v", deployment2)
+
+			Expect(deployment1.Equals(deployment2)).To(BeTrue())
+		})
 	})
 })
