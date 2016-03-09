@@ -22,7 +22,7 @@ func (d Deployment) Equals(t Deployment) bool {
 		return false
 	}
 
-	for k, v := range d {
+	for k, v := range d.Nodes {
 
 		if tk, ok := t[k]; ok {
 			if len(v) != len(tk) {
