@@ -1,12 +1,12 @@
 package main
 
 import (
-	"strings"
 	"fmt"
 	"os"
+	"strings"
 
-	slclient "github.com/maximilien/softlayer-go/client"
 	"github.com/davecgh/go-spew/spew"
+	slclient "github.com/maximilien/softlayer-go/client"
 	//	datatypes "github.com/maximilien/softlayer-go/data_types"
 )
 
@@ -50,7 +50,7 @@ func main() {
 	spew.Printf("vgPowerState =%#+v\n", vgPowerState)
 }
 
-func FindHostname(hostname string) bool, error {
+func FindHostname(hostname string) (bool, error) {
 	client := slclient.NewSoftLayerClient(username, apiKey)
 	accountService, err := client.GetSoftLayer_Account_Service()
 	if err != nil {
@@ -62,12 +62,12 @@ func FindHostname(hostname string) bool, error {
 	if err != nil {
 		return false, err
 	}
-	
-	for _, guest := range virtualGuests{
-		if strings.Contains(guest.Hostname, hostname){
+
+	for _, guest := range virtualGuests {
+		if strings.Contains(guest.Hostname, hostname) {
 			fmt.Printf("Found guest %v ")
 			return true, nil
 		}
 	}
-	
+
 }

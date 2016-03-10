@@ -10,7 +10,7 @@ import (
 	"github.com/cheyang/scloud/pkg/persist"
 	"github.com/cheyang/scloud/pkg/state"
 	"github.com/cheyang/scloud/pkg/utils"
-	datatypes "github.com/cheyang/softlayer-go/data_types"
+	datatypes "github.com/maximilien/softlayer-go/data_types"
 )
 
 func main() {

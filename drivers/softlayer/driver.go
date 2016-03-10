@@ -11,7 +11,7 @@ import (
 	"github.com/cheyang/scloud/pkg/host"
 	"github.com/cheyang/scloud/pkg/host/errs"
 	"github.com/cheyang/scloud/pkg/state"
-	slclient "github.com/cheyang/softlayer-go/client"
+	slclient "github.com/maximilien/softlayer-go/client"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
 )
 
