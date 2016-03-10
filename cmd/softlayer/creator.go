@@ -1,6 +1,7 @@
 // creator.go
 package main
 
+/**
 import (
 	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
 
@@ -33,3 +34,4 @@ func main() {
 	}
 
 }
+*/
