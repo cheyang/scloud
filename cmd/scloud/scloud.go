@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	slclient "github.com/cheyang/softlayer-go/client"
+	slclient "github.com/maximilien/softlayer-go/client"
 	"github.com/davecgh/go-spew/spew"
 	//	datatypes "github.com/maximilien/softlayer-go/data_types"
 )
