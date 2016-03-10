@@ -20,6 +20,10 @@ func main() {
 	}
 
 	fmt.Printf("hosts = %v", hosts)
+
+	for _, h := range hosts {
+		fmt.Println(h.PrimaryBackendIpAddress)
+	}
 }
 
 func GetClient() (softlayer.Client, error) {
