@@ -2,14 +2,8 @@
 package main
 
 import (
-	"github.com/cheyang/scloud/drivers/softlayer"
 	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
-	lib "github.com/cheyang/scloud/pkg"
-	"github.com/cheyang/scloud/pkg/drivers"
-	//	"github.com/cheyang/scloud/pkg/log"
-	"github.com/cheyang/scloud/pkg/persist"
-	"github.com/cheyang/scloud/pkg/state"
-	"github.com/cheyang/scloud/pkg/utils"
+
 	datatypes "github.com/maximilien/softlayer-go/data_types"
 )
 
