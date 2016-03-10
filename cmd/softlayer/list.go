@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	slclient "github.com/maximilien/softlayer-go/client"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
 	softlayer "github.com/maximilien/softlayer-go/softlayer"
 )
@@ -28,7 +29,7 @@ func GetClient() (softlayer.Client, error) {
 		return nil, fmt.Errorf("apiUser and key are not setting.")
 	}
 
-	return softlayer.NewSoftLayerClient(apiUser, apiKey), nil
+	return slclient.NewSoftLayerClient(apiUser, apiKey), nil
 }
 
 func CreateVirtualGuestService() (softlayer.SoftLayer_Virtual_Guest_Service, error) {
