@@ -15,6 +15,10 @@ func main() {
 	name := "SIDRK8SNODE"
 	hosts, err := FindGuestByHostname(name)
 
+	if err != nil {
+		fmt.Println("err:", err)
+	}
+
 	fmt.Printf("hosts = %v", hosts)
 }
 
