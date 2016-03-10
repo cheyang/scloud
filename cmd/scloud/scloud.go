@@ -31,7 +31,7 @@ func main() {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Println("No error found")
+		fmt.Println("No error found in client.GetSoftLayer_Virtual_Guest_Service()")
 	}
 
 	virtualGuest, err := virtualGuestService.GetObject(id)
@@ -40,7 +40,7 @@ func main() {
 		fmt.Println("errors:", err)
 		return
 	} else {
-		fmt.Println("No error found")
+		fmt.Println("No error found in virtualGuestService.GetObject(id)")
 	}
 
 	spew.Printf("virtualGuest =%#+v\n", virtualGuest)
