@@ -51,7 +51,12 @@ func main() {
 }
 
 func FindHostname(hostname string) (bool, error) {
-	client := slclient.NewSoftLayerClient(username, apiKey)
+
+	apiUser := os.Getenv(ApiUser)
+	apiKey := os.Getenv(ApiKey)
+
+	client := slclient.NewSoftLayerClient(apiUser, apiKey)
+
 	accountService, err := client.GetSoftLayer_Account_Service()
 	if err != nil {
 		return false, err
