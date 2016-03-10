@@ -75,4 +75,5 @@ func FindHostname(hostname string) (bool, error) {
 		}
 	}
 
+	return true, nil
 }
