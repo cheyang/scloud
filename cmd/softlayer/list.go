@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	sl_cloud "github.com/cheyang/scloud/drivers/softlayer"
-	datatypes "github.com/cheyang/softlayer-go/data_types"
+	sl_cloud "github.com/maximilien/scloud/drivers/softlayer"
+	datatypes "github.com/maximilien/softlayer-go/data_types"
 	softlayer "github.com/maximilien/softlayer-go/softlayer"
 )
 
