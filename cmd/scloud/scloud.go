@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"fmt"
 	"os"
 
@@ -47,4 +48,26 @@ func main() {
 	vgPowerState, err := virtualGuestService.GetPowerState(id)
 
 	spew.Printf("vgPowerState =%#+v\n", vgPowerState)
+}
+
+func FindHostname(hostname string) bool, error {
+	client := slclient.NewSoftLayerClient(username, apiKey)
+	accountService, err := client.GetSoftLayer_Account_Service()
+	if err != nil {
+		return false, err
+	}
+
+	virtualGuests, err := accountService.GetVirtualGuests()
+
+	if err != nil {
+		return false, err
+	}
+	
+	for _, guest := range virtualGuests{
+		if strings.Contains(guest.Hostname, hostname){
+			fmt.Printf("Found guest %v ")
+			return true, nil
+		}
+	}
+	
 }
