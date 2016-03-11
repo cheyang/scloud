@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
+	scloudLog "github.com/cheyang/scloud/pkg/log"
 	"github.com/cheyang/scloud/pkg/state"
+	"github.com/cheyang/scloud/pkg/utils"
 
 	slclient "github.com/maximilien/softlayer-go/client"
 	datatypes "github.com/maximilien/softlayer-go/data_types"
@@ -20,9 +23,19 @@ import (
 var (
 	TIMEOUT          time.Duration = 30 * time.Minute
 	POLLING_INTERVAL time.Duration = 2 * time.Minute
+	waitgroup        sync.WaitGroup
 )
 
 func main() {
+
+	err := scloudLog.InitLog()
+
+	if err != nil {
+		t.Errorf("Failed to init log")
+	}
+
+	defer scloudLog.CloseLog()
+
 	name := "SIDRK8SNODE"
 	hosts, err := FindGuestByHostname(name)
 
@@ -38,14 +51,25 @@ func main() {
 		fmt.Println("err:", err)
 	}
 
-	reload_OS_Config = datatypes.Image_Template_Config{
-		ImageTemplateId: "c3b41ce1-21f0-41d5-8e4d-d10be596d4f3",
+	for _, h := range hosts {
+		waitgroup.Add(1)
+		fmt.Println(h.PrimaryBackendIpAddress)
+		reload_OS_Config = datatypes.Image_Template_Config{
+			ImageTemplateId: "c3b41ce1-21f0-41d5-8e4d-d10be596d4f3",
+		}
+
+		service.ReloadOperatingSystem(id, reload_OS_Config)
+		go reloadVM(h.Id)
 	}
 
-	for _, h := range hosts {
-		fmt.Println(h.PrimaryBackendIpAddress)
-		service.ReloadOperatingSystem(h.Id, reload_OS_Config)
-	}
+	waitgroup.Wait()
+}
+
+func reloadVM(id int) {
+
+	waitForReady(h.Id)
+
+	waitgroup.Done()
 }
 
 func GetClient() (softlayer.Client, error) {
@@ -154,12 +178,30 @@ func GetState(id int) (state.State, error) {
 
 }
 
-func WaitForVirtualGuestToRunning(virtualGuestId int) {
+func waitForReady(virtualGuestId int) error {
+	fmt.Fprintf(os.Stderr, "Waiting for machine %s to be running, this may take a few minutes...\n", host.Name)
 
-	Eventually(func() int {
+	if err := utils.WaitFor(WaitForVirtualGuestToRunning(virtualGuestId)); err != nil {
+		return fmt.Errorf("Error waiting for machine %d to be running: %s", virtualGuestId, err)
+	}
+
+	return nil
+}
+
+func WaitForVirtualGuestToRunning(virtualGuestId int) func() bool {
+
+	return func() bool {
 		state, err := GetState(virtualGuestId)
-		Expect(err).ToNot(HaveOccurred())
-		fmt.Printf("----> virtual guest: %d, has state %s\n", virtualGuestId, state)
-		return state
-	}, TIMEOUT, POLLING_INTERVAL).Should(BeEquivalentTo(state.Running), "failed waiting for virtual guest to run")
+
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error in getting machine %d state: %s\n", virtualGuestId, err)
+		}
+
+		if currentState == state.Running {
+			return true
+		}
+
+		return false
+	}
+
 }
