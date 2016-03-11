@@ -16,8 +16,8 @@ import (
 	datatypes "github.com/maximilien/softlayer-go/data_types"
 	softlayer "github.com/maximilien/softlayer-go/softlayer"
 
-	. "github.com/onsi/gomega"
-	. "github.com/onsi/gomega/gexec"
+	//	. "github.com/onsi/gomega"
+	//	. "github.com/onsi/gomega/gexec"
 )
 
 var (
@@ -31,7 +31,7 @@ func main() {
 	err := scloudLog.InitLog()
 
 	if err != nil {
-		t.Errorf("Failed to init log")
+		fmt.Println("Failed to init log")
 	}
 
 	defer scloudLog.CloseLog()
@@ -54,11 +54,11 @@ func main() {
 	for _, h := range hosts {
 		waitgroup.Add(1)
 		fmt.Println(h.PrimaryBackendIpAddress)
-		reload_OS_Config = datatypes.Image_Template_Config{
+		reload_OS_Config := datatypes.Image_Template_Config{
 			ImageTemplateId: "c3b41ce1-21f0-41d5-8e4d-d10be596d4f3",
 		}
 
-		service.ReloadOperatingSystem(id, reload_OS_Config)
+		service.ReloadOperatingSystem(h.Id, reload_OS_Config)
 		go reloadVM(h.Id)
 	}
 
@@ -67,7 +67,7 @@ func main() {
 
 func reloadVM(id int) {
 
-	waitForReady(h.Id)
+	waitForReady(id)
 
 	waitgroup.Done()
 }
@@ -143,7 +143,7 @@ func GetState(id int) (state.State, error) {
 	apiClient, err := GetClient()
 
 	if err != nil {
-		return nil, err
+		return state.None, err
 	}
 
 	virtualGuestService, err := apiClient.GetSoftLayer_Virtual_Guest_Service()
@@ -179,7 +179,7 @@ func GetState(id int) (state.State, error) {
 }
 
 func waitForReady(virtualGuestId int) error {
-	fmt.Fprintf(os.Stderr, "Waiting for machine %s to be running, this may take a few minutes...\n", host.Name)
+	fmt.Fprintf(os.Stderr, "Waiting for machine %d to be running, this may take a few minutes...\n", virtualGuestId)
 
 	if err := utils.WaitFor(WaitForVirtualGuestToRunning(virtualGuestId)); err != nil {
 		return fmt.Errorf("Error waiting for machine %d to be running: %s", virtualGuestId, err)
@@ -191,7 +191,7 @@ func waitForReady(virtualGuestId int) error {
 func WaitForVirtualGuestToRunning(virtualGuestId int) func() bool {
 
 	return func() bool {
-		state, err := GetState(virtualGuestId)
+		currentState, err := GetState(virtualGuestId)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error in getting machine %d state: %s\n", virtualGuestId, err)
