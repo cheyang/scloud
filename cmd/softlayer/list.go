@@ -45,6 +45,8 @@ func main() {
 
 	fmt.Printf("hosts = %v", hosts)
 
+	t1 := time.Now()
+
 	service, err := CreateVirtualGuestService()
 
 	if err != nil {
@@ -55,7 +57,7 @@ func main() {
 		waitgroup.Add(1)
 		fmt.Println(h.PrimaryBackendIpAddress)
 		reload_OS_Config := datatypes.Image_Template_Config{
-			ImageTemplateId: "c3b41ce1-21f0-41d5-8e4d-d10be596d4f3",
+			ImageTemplateId: "981475",
 		}
 
 		service.ReloadOperatingSystem(h.Id, reload_OS_Config)
@@ -63,6 +65,9 @@ func main() {
 	}
 
 	waitgroup.Wait()
+
+	t2 := time.Now()
+
 }
 
 func reloadVM(id int) {
