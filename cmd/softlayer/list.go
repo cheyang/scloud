@@ -58,10 +58,17 @@ func main() {
 		waitgroup.Add(1)
 		fmt.Println(h.PrimaryBackendIpAddress)
 		reload_OS_Config := datatypes.Image_Template_Config{
-			ImageTemplateId: "981475",
+			ImageTemplateId: "​904419",
 		}
 
-		service.ReloadOperatingSystem(h.Id, reload_OS_Config)
+		err = service.ReloadOperatingSystem(h.Id, reload_OS_Config)
+
+		if err != nil {
+
+			fmt.Println("Failed to reload")
+			os.Exit(1)
+		}
+
 		go reloadVM(h.Id)
 	}
 
