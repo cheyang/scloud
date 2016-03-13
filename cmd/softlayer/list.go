@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"sync"
@@ -67,6 +68,10 @@ func main() {
 	waitgroup.Wait()
 
 	t2 := time.Now()
+
+	fmt.Printf("The call took %v to run.\n", t2.Sub(t1))
+
+	fmt.Fprintf(os.Stderr, "The call took %v to run.\n", t2.Sub(t1))
 
 }
 
