@@ -44,6 +44,8 @@ var _ = Describe("Test command", func() {
 
 			Expect(err).To(BeNil())
 
+			fmt.Println(cmd.GetPeriod())
+
 		})
 
 		It("error to log file", func() {
@@ -73,6 +75,8 @@ var _ = Describe("Test command", func() {
 			}
 
 			Expect(err).ToNot(BeNil())
+
+			fmt.Println(cmd.GetPeriod())
 
 		})
 	})

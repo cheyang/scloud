@@ -171,3 +171,7 @@ func (this *Command) StatusCode() (int, error) {
 
 	return int(this.status), nil
 }
+
+func (this *Command) GetPeriod() time.Duration {
+	return this.duration
+}
