@@ -7,7 +7,7 @@ import (
 	"os"
 	osexec "os/exec"
 	"strings"
-	"syscall"
+
 	"time"
 )
 
@@ -26,12 +26,13 @@ type Command struct {
 	Args []string
 	Pwd  string
 	Env
-	Stdout  io.Writer
-	stderr  io.Writer
-	Timeout time.Duration
-	status  Status
-	end     time.Time
-	start   time.Time
+	Stdout   io.Writer
+	Stderr   io.Writer
+	Timeout  time.Duration
+	status   Status
+	end      time.Time
+	start    time.Time
+	duration time.Duration
 }
 
 type Status int
@@ -44,23 +45,59 @@ const (
 
 type Env map[string]string
 
+func NewCommand(name string, args ...string) *Command {
+	return &Command{
+		Name:    name,
+		Args:    append([]string{}, args...),
+		Timeout: DefaultTimeOut,
+		Env:     Env(make(map[string]string)),
+	}
+}
+
+// Set environment variables
+func (this *Command) SetEnvironmentVar(key string, value string) {
+	this.Env[key] = value
+}
+
+// Set working dir
+func (this *Command) SetWorkingDir(dir string) {
+	this.Pwd = dir
+}
+
+func (this *Command) SetStdout(output io.Writer) {
+	this.Stdout = output
+}
+
+func (this *Command) SetStderr(stderr io.Writer) {
+	this.Stderr = stderr
+}
+
 func (this *Command) PrintCommand() string {
 	return fmt.Sprintf("==> Executing: %s %s\n", this.Name, strings.Join(this.Args, " "))
 }
 
+// Run executes the command and blocks until the command completes.
+// If the command returns a failure status, an error is returned
+// which includes the status.
 func (this *Command) Run() error {
 
 	this.start = time.Now()
 
-	_, err := osexec.LookPath(name)
+	defer func() {
+		this.end = time.Now()
+		this.duration = this.end.Sub(this.start)
+	}()
+
+	_, err := osexec.LookPath(this.Name)
 
 	if err != nil {
-		this.end = time.Now()
 		this.status = StatusNotFound
 		return err
 	}
 
-	cmd := osexec.Command(this.Name, this.Args)
+	cmd := osexec.Command(this.Name, this.Args...)
+
+	cmd.Dir = this.Pwd
 
 	this.setCurrentEnv(cmd)
 
@@ -70,8 +107,8 @@ func (this *Command) Run() error {
 	}
 
 	// set stderr
-	if this.stderr != nil {
-		cmd.Stderr = this.stderr
+	if this.Stderr != nil {
+		cmd.Stderr = this.Stderr
 	}
 
 	cmd.Stdout.Write([]byte(this.PrintCommand()))
@@ -79,8 +116,6 @@ func (this *Command) Run() error {
 	startErr := cmd.Start()
 
 	if startErr != nil {
-
-		this.end = time.Now()
 		this.status = StatusErr
 		return startErr
 	}
@@ -91,18 +126,18 @@ func (this *Command) Run() error {
 		for _ = range timer.C {
 			err := cmd.Process.Signal(os.Kill)
 
-			_, err := cmd.Stderr.Write([]byte(err.Error()))
+			_, err = cmd.Stderr.Write([]byte(err.Error()))
 
-			fmt.Fprintf(os.Stderr, err)
-			fmt.Fprintf(os.Stdout, err)
+			fmt.Fprintln(os.Stderr, err)
+			fmt.Fprintln(os.Stdout, err)
 		}
 	}(timer, cmd)
 
-	err := cmd.Wait()
+	err = cmd.Wait()
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, err)
-		fmt.Fprintf(os.Stdout, err)
+		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stdout, err)
 		return err
 	}
 
@@ -134,5 +169,5 @@ func (this *Command) StatusCode() (int, error) {
 		return -1, CommandStillRunning
 	}
 
-	return int(this.status)
+	return int(this.status), nil
 }
