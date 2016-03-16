@@ -1,7 +1,10 @@
 package engine_test
 
 import (
+	"filepath"
 	"fmt"
+	"os"
+	"time"
 
 	. "github.com/cheyang/scloud/pkg/engine"
 
@@ -10,10 +13,6 @@ import (
 )
 
 var _ = Describe("Test command", func() {
-	var (
-		hosts []*host.Host
-		num   int
-	)
 
 	Context("#RUn", func() {
 
