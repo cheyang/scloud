@@ -1,9 +1,9 @@
 package engine_test
 
 import (
-	"filepath"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	. "github.com/cheyang/scloud/pkg/engine"
