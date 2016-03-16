@@ -20,13 +20,7 @@ var _ = Describe("Test command", func() {
 			cmd := NewCommand("ls", "-l")
 			cmd.SetWorkingDir("/tmp")
 
-			currentTime := time.Now().Unix()
-
-			tm := time.Unix(currentTime, 0)
-
-			timestamp := tm.Format("20060102150405")
-
-			logBaseName := fmt.Sprintf("test_%s.log", timestamp)
+			logBaseName := fmt.Sprintf("test_%s.log", "1")
 
 			logFileName := filepath.Join("/tmp", logBaseName)
 
@@ -58,11 +52,7 @@ var _ = Describe("Test command", func() {
 
 			currentTime := time.Now().Unix()
 
-			tm := time.Unix(currentTime, 0)
-
-			timestamp := tm.Format("20060102150405")
-
-			logBaseName := fmt.Sprintf("test_%s.log", timestamp)
+			logBaseName := fmt.Sprintf("test_%s.log", "2")
 
 			logFileName := filepath.Join("/tmp", logBaseName)
 
@@ -76,7 +66,7 @@ var _ = Describe("Test command", func() {
 
 			cmd.SetStdout(logFile)
 
-			cmd.SetStderr(logFile)
+			cmd.SetStderr(os.Stdout)
 
 			err = cmd.Run()
 
@@ -84,7 +74,7 @@ var _ = Describe("Test command", func() {
 				fmt.Println("error:", err)
 			}
 
-			Expect(err).To(BeNil())
+			Expect(err).ToNot(BeNil())
 
 		})
 	})
