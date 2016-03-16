@@ -28,12 +28,12 @@ var _ = Describe("Test command", func() {
 
 			logBaseName := fmt.Sprintf("test_%s.log", timestamp)
 
-			logFileName = filepath.Join("/tmp", logBaseName)
+			logFileName := filepath.Join("/tmp", logBaseName)
 
-			logFile, err = os.OpenFile(logFileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0664)
+			logFile, err := os.OpenFile(logFileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0664)
 
 			if err != nil {
-				return err
+				fmt.Println("error:", err)
 			}
 
 			logFile.WriteString(fmt.Sprintf("%v Opened logfile at %v", os.Getpid(), time.Now()))
@@ -45,7 +45,7 @@ var _ = Describe("Test command", func() {
 			err := cmd.Run()
 
 			if err != nil {
-				fmt.Println("error:", error)
+				fmt.Println("error:", err)
 			}
 
 			Expect(err).To(BeNil())
