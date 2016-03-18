@@ -31,6 +31,7 @@ func (f InventoryFile) SaveTo(filename string) error {
 	return f.SaveToIndent(filename, "")
 }
 
+// Save the inventory file content into the file with given indention
 func (f InventoryFile) SaveToIndent(filename, indent string) error {
 	tmpPath := filename + "." + strconv.Itoa(time.Now().Nanosecond()) + ".tmp"
 	defer os.Remove(tmpPath)
