@@ -75,9 +75,15 @@ func (f *InventoryFile) WriteToIndent(w io.Writer, indent string) (n int64, err 
 
 	buf := bytes.NewBuffer(nil)
 
-	for sName, sValue := range f.sections {
+	for _, sKey := range f.keys {
 
-		if _, err := buf.WriteString("[" + sName + "]" + LineBreak); err != nil {
+		sValue, ok := f.sections[sKey]
+
+		if !ok {
+			continue
+		}
+
+		if _, err := buf.WriteString("[" + sKey + "]" + LineBreak); err != nil {
 			return 0, err
 		}
 

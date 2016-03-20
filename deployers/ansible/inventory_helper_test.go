@@ -36,9 +36,9 @@ var _ = Describe("Inventory Helper", func() {
 	Context("#SaveTo", func() {
 
 		It("Create a file to save ansible inventories", func() {
-			manager := NewInventory()
+			//			manager := NewInventory()
 
-			err := manager.SaveTo("/tmp/result.txt")
+			err := invetoryManager.SaveTo("/tmp/result.txt")
 
 			Expect(err).To(BeNil())
 
