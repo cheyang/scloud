@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	osexec "os/exec"
-	"strings"
 
 	"github.com/cheyang/scloud/pkg/deploy"
 )
@@ -61,14 +60,14 @@ func (d *Deployer) Deploy(deployment deploy.Deployment, workingDir string) error
 //Generate configuration file, and return string content
 func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename string) error {
 
-	keys := make([]string)
+	keys := make([]string, 0)
 
-	sections := make(map[string]([]string))
+	sections := make(map[string]([]string), 0)
 
-	for key, hosts := range deployment {
+	for key, hosts := range deployment.Nodes {
 		keys = append(keys, key)
 
-		ips := make([]string)
+		ips := make([]string, 0)
 
 		for _, h := range hosts {
 			ip, err := h.Driver.GetIP()
