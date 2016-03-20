@@ -1,6 +1,8 @@
 package ansible_test
 
 import (
+	"fmt"
+
 	. "github.com/cheyang/scloud/deployers/ansible"
 	. "github.com/cheyang/scloud/pkg/engine"
 
