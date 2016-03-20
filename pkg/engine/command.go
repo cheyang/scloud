@@ -104,11 +104,15 @@ func (this *Command) Run() error {
 	// set output
 	if this.Stdout != nil {
 		cmd.Stdout = this.Stdout
+	} else {
+		cmd.Stdout = os.Stdout
 	}
 
 	// set stderr
 	if this.Stderr != nil {
 		cmd.Stderr = this.Stderr
+	} else {
+		cmd.Stderr = os.Stderr
 	}
 
 	cmd.Stdout.Write([]byte(this.PrintCommand()))
