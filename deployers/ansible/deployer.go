@@ -59,7 +59,7 @@ func (d *Deployer) Deploy(deployment deploy.Deployment, workingDir string) error
 }
 
 //Generate configuration file, and return string content
-func (d *Deployer) createInventoryfile(deployment deploy.Deployment) (string, error) {
+func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename string) error {
 
 	keys := make([]string)
 
@@ -73,7 +73,7 @@ func (d *Deployer) createInventoryfile(deployment deploy.Deployment) (string, er
 		for _, h := range hosts {
 			ip, err := h.Driver.GetIP()
 			if err != nil {
-				return "", err
+				return err
 			}
 
 			ips = append(ips, ip)
@@ -83,5 +83,11 @@ func (d *Deployer) createInventoryfile(deployment deploy.Deployment) (string, er
 	}
 
 	childrenKey := fmt.Sprintf("[%s:children]", d.environment)
+
+	sections[childrenKey] = keys
+
+	invetory_file := NewInventory(sections)
+
+	inventory_file.SaveTo(filename)
 
 }
