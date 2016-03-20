@@ -86,8 +86,10 @@ func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename st
 
 	sections[childrenKey] = keys
 
-	invetory_file := NewInventory(sections)
+	invetoryManager := NewInventory(sections)
 
-	inventory_file.SaveTo(filename)
+	err := invetoryManager.SaveTo(filename)
+
+	return err
 
 }
