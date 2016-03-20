@@ -60,12 +60,9 @@ func (d *Deployer) Deploy(deployment deploy.Deployment, workingDir string) error
 //Generate configuration file, and return string content
 func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename string) error {
 
-	keys := make([]string, 0)
-
-	sections := make(map[string]([]string), 0)
+	invetoryManager := NewInventory()
 
 	for key, hosts := range deployment.Nodes {
-		keys = append(keys, key)
 
 		ips := make([]string, 0)
 
@@ -78,14 +75,14 @@ func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename st
 			ips = append(ips, ip)
 		}
 
-		sections[key] = ips
+		//		sections[key] = ips
+
+		invetoryManager.AddSection(key, ips)
 	}
 
 	childrenKey := fmt.Sprintf("[%s:children]", d.environment)
 
-	sections[childrenKey] = keys
-
-	invetoryManager := NewInventory(sections)
+	sections[childrenKey] = invetoryManager.keys
 
 	err := invetoryManager.SaveTo(filename)
 

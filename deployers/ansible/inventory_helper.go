@@ -18,21 +18,39 @@ var LineBreak = "\n"
 
 type InventoryFile struct {
 	sections map[string][]string
+	keys     []string
 }
 
-func NewInventory(sections map[string][]string) InventoryFile {
-	return InventoryFile{
+func NewInventory() *InventoryFile {
+
+	sections := make(map[string]([]string), 0)
+
+	keys := make([]string, 0)
+
+	return &InventoryFile{
 		sections: sections,
+		keys:     keys,
 	}
 }
 
+// Add section to inventory file, it should be on order
+func (f *InventoryFile) AddSection(sectionName string, members []string) {
+
+	if _, ok := f.sections[sectionName]; !ok {
+		//Add new section keys
+		f.keys = append(f.keys, sectionName)
+	}
+
+	f.sections[sectionName] = members
+}
+
 // SaveTo write the content into file system
-func (f InventoryFile) SaveTo(filename string) error {
+func (f *InventoryFile) SaveTo(filename string) error {
 	return f.SaveToIndent(filename, "")
 }
 
 // Save the inventory file content into the file with given indention
-func (f InventoryFile) SaveToIndent(filename, indent string) error {
+func (f *InventoryFile) SaveToIndent(filename, indent string) error {
 	tmpPath := filename + "." + strconv.Itoa(time.Now().Nanosecond()) + ".tmp"
 	defer os.Remove(tmpPath)
 
@@ -53,7 +71,7 @@ func (f InventoryFile) SaveToIndent(filename, indent string) error {
 }
 
 // WriteToIndent writes content into io.Writer with given indention.
-func (f InventoryFile) WriteToIndent(w io.Writer, indent string) (n int64, err error) {
+func (f *InventoryFile) WriteToIndent(w io.Writer, indent string) (n int64, err error) {
 
 	buf := bytes.NewBuffer(nil)
 
