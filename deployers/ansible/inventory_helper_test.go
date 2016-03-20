@@ -13,7 +13,7 @@ import (
 var _ = Describe("Inventory Helper", func() {
 
 	var (
-		sections        map[string][]string
+		//		sections        map[string][]string
 		invetoryManager *InventoryFile
 	)
 
