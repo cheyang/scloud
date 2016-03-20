@@ -82,7 +82,9 @@ func (d *Deployer) createInventoryfile(deployment deploy.Deployment, filename st
 
 	childrenKey := fmt.Sprintf("[%s:children]", d.environment)
 
-	sections[childrenKey] = invetoryManager.keys
+	//	sections[childrenKey] = invetoryManager.keys
+
+	invetoryManager.AddSection(childrenKey, invetoryManager.keys)
 
 	err := invetoryManager.SaveTo(filename)
 
